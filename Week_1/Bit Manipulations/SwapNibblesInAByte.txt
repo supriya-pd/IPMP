@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+
+int SwapNibbles(int x)
+{ 
+return ( (x & 0x0F) << 4 | (x & 0xF0) >> 4 );
+}
+};
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--) 
+	{
+		int n;
+		cin>>n;
+
+        Solution ob;
+		cout<<ob.SwapNibbles(n)<<endl;
+	}
+	return 0;
+}
+
+done in dev c++

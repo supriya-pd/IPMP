@@ -1,0 +1,10 @@
+Weekly Contest 234
+
+1.1805-->Number of Different Integers in String --easy,3
+2.1806-->Minimum number of operations to reinitialize a permutation --medium --5
+3.1807-->Evaluate the bracket pairs of a string--medium--5
+4.1808-->Maximize number of nice divisors--hard--6
+
+Score-->3/19
+At first I converted string to integer, that's why jab bahut bada number aaya, test case failed, so next I just kept it asa string and just removed leading zeroes,
+it worked-->but it took O(n), using regex, it can be done in constant time--check this

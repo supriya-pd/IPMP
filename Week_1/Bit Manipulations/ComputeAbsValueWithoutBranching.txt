@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+
+int AbsValue(int n)
+{ 
+    int mask=n>>31;
+    return mask^(mask+n);
+}
+};
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--) 
+	{
+		int n;
+		cin>>n;
+
+        Solution ob;
+		cout<<ob.AbsValue(n)<<endl;
+	}
+	return 0;
+}
+
+done in dev c++ 

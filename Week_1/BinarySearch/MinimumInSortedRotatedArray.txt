@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        return bfind(nums,0,nums.size()-1);
+    }
+    int bfind(vector<int>& nums,int l,int r)
+    {
+         if(l<r)
+         {
+             int m=(l+r)/2;
+             if(nums[m]>nums[r])
+                 return bfind(nums,m+1,r);
+             else
+                 return bfind(nums,l,m);
+         }
+        return nums[l];
+    }
+};
+
+do second part next

@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int count=0;
+        while(n)
+        {
+            n=n&(n-1);
+            count++;
+        }
+        return count;
+    }
+};
+
+hamming weight problem
+binary watch, hamming distance,binary number with alternating bits, prime number of set bits in binary representation

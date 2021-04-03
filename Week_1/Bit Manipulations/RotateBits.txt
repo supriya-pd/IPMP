@@ -1,0 +1,25 @@
+
+class Solution
+{
+  public:
+        vector <int> rotate (int n, int d)
+        {
+            vector<int> v;
+            v.push_back(leftRotate(n,d));
+            v.push_back(rightRotate(n,d));
+            return v;
+        }
+        int leftRotate(int n,int d)
+        {
+            int a=n<<d;
+            int b=n>>(16-d);
+            return a|b;
+        }
+        int rightRotate(int n,int d)
+        {
+            return (n>>d)|(n<<(16-d));
+        }
+};
+
+
+did on gfg, it's not working there, apparently there's issue on their side.

@@ -1,0 +1,70 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n=nums.size();
+        vector<int> v;
+        v.push_back(first(nums,n,target));
+        v.push_back(last(nums,n,target));
+        return v;
+    }
+    int first(vector<int>& nums,int n,int x)
+    {
+        
+    int low = 0, high = n - 1;
+ 
+    int result = -1;
+ 
+    while (low <= high)
+    {
+      
+        int mid = (low + high)/2;
+ 
+        if (x == nums[mid])
+        {
+            result = mid;
+            high = mid - 1;
+        }
+ 
+        else if (x < nums[mid]) {
+            high = mid - 1;
+        }
+ 
+        else {
+            low = mid + 1;
+        }
+    }
+ 
+    return result;
+    }
+    int last(vector<int>& nums,int n,int x)
+    {
+    int low = 0, high = n - 1;
+ 
+    int result = -1;
+ 
+ 
+    while (low <= high)
+    {
+        int mid = (low + high)/2;
+ 
+        if (x == nums[mid])
+        {
+            result = mid;
+            low = mid + 1;
+        }
+ 
+        else if (x < nums[mid]) {
+            high = mid - 1;
+        }
+        
+        else {
+            low = mid + 1;
+        }
+    }
+ 
+    return result;
+    }
+};
+
+did leetcode 34
+do this next--first bad version

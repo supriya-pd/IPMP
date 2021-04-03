@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+using namespace std;
+string isBalanced(int arr[], int n, int x);
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n,x;
+	    cin>>n;
+	    int arr[n];
+	    for(int i=0;i<n;i++)
+	    cin>>arr[i];
+	    cin>>x;
+	cout <<isBalanced(arr, n, x)<<endl;
+	}
+	return 0;	 
+}
+
+int fsearch(int a[],int l,int r,int x)
+{
+    if(l>r)
+    return -1;
+    if(x>=a[r])
+    return r;
+    int mid=(l+r)/2;
+    if(a[mid]==x)
+    return mid;
+    if(mid>0 && a[mid-1]<=x && x<a[mid])
+    return mid-1;
+    if(x<a[mid])
+    return fsearch(a,l,mid-1,x);
+    return fsearch(a,mid+1,r,x);
+    
+  
+}
+int csearch(int a[],int l,int r,int x)
+{
+    if(x<=a[l])
+    return l;
+    if(x>a[r])
+    return -1;
+    int mid=(l+r)/2;
+    if(a[mid]==x)
+    return mid;
+    else if(a[mid]<x)
+    {
+        if(mid+1<=r && x<=a[mid+1])
+        return mid+1;
+        else
+        return csearch(a,mid+1,r,x);
+    }
+    else
+    {
+        if(mid-1>=l && x>a[mid-1])
+        return mid;
+        else
+        return csearch(a,l,mid-1,x);
+    }
+}
+
+string isBalanced(int a[],int n,int x)
+{
+    int f=fsearch(a,0,n-1,x);
+    int c=csearch(a,0,n-1,x);
+    if(f==-1 || c==-1)
+    return "Balanced";
+    else if(x-a[f]==a[c]-x)
+    return "Balanced";
+    else
+    return "Not Balanced";
+}
+
+done on gfg-question was check if array was balanced

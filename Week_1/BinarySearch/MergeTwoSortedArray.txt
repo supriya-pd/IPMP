@@ -1,0 +1,38 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int size=nums1.size();
+        int i; int j;
+        for(i=m-1,j=size-1;i>=0;i--,j--)
+        {
+            nums1[j]=nums1[i];
+        }
+        i=n;
+        j=0;
+        int k=0;
+        while(i<m+n && j<n)
+        {
+            if(nums1[i]<=nums2[j])
+            {
+                nums1[k]=nums1[i];
+                i++;k++;
+            }else
+            {
+                nums1[k]=nums2[j];
+                j++;k++;
+            }
+        }
+        while(i<m+n)
+        {
+            nums1[k]=nums1[i];
+            i++;k++;
+        }
+        while(j<n)
+        {
+            nums1[k]=nums2[j];
+            j++;k++;
+        }
+    }
+};
+
+suggested-merge linked lists,interval list intersection,squares of a sorted array

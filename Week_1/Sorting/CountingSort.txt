@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+ 
+void countSort(vector<int> &input)
+{
+    
+    map<int, int> freq;
+ 
+    
+    for (int x: input) {
+        freq[x]++;
+    }
+ 
+    
+    int i = 0;
+    for (auto p: freq)
+    {
+        while (p.second--) {
+            input[i++] = p.first;
+        }
+    }
+}
+ 
+int main()
+{
+    vector<int> input = { 4,7,2,3,0,9,5,8,9,1 };
+ 
+    countSort(input);
+ 
+    for (int i: input) {
+        cout << i << endl;
+    }
+ 
+    return 0;
+}
+
+done on online compiler, auto doesn't work on dev c++

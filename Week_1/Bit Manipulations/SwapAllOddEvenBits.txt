@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+
+int SwapEvenOddBits(int n)
+{ 
+  int even_bits = n & 0xAAAAAAAAA;
+  int odd_bits = n & 0x55555555;
+  even_bits = even_bits>>1;
+  odd_bits = odd_bits<<1;
+  return odd_bits | even_bits;
+}
+};
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--) 
+	{
+		int n;
+		cin>>n;
+
+        Solution ob;
+		cout<<ob.SwapEvenOddBits(n)<<endl;
+	}
+	return 0;
+}
+
+done on dev c++

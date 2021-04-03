@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+
+int TurnOffRightMostSetBit(int n)
+{ 
+    return n&(n-1);
+}
+};
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--) 
+	{
+		int n;
+		cin>>n;
+
+        Solution ob;
+		cout<<ob.TurnOffRightMostSetBit(n)<<endl;
+	}
+	return 0;
+}
+
+done in dev c++ 

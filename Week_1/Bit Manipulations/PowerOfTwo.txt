@@ -1,0 +1,11 @@
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if(n<0)
+            return 0;
+        else
+            return n && !(n & (n-1));
+    }
+};
+
+suggestions-number of bits, power of 3, power of 4

@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Solution{
+  public:
+    
+    int majorityElement(int a[], int size)
+    {
+        sort(a,a+size);
+        int count=1;
+        int i;
+        for(i=0;i<size-1;i++)
+        {
+            if(a[i]==a[i+1])
+            {
+                ++count;
+            }
+            else
+            {
+                if(count>(size/2))
+                {
+                    return a[i];
+                }
+                else
+                {
+                    count=1;
+                }
+            }
+        }
+        if(count>(size/2))
+        return a[i];
+        return -1;
+    }
+};
+
+
+int main(){
+
+    int t;
+    cin >> t;
+
+    while(t--){
+        int n;
+        cin >> n;
+        int arr[n];
+        
+        for(int i = 0;i<n;i++){
+            cin >> arr[i];
+        }
+        Solution obj;
+        cout << obj.majorityElement(arr, n) << endl;
+    }
+
+    return 0;
+}
+
+done on gfg-->question was find majority element in given array, wasn't sorted, I sorted array then did question
+So, for majority element question if you want to do without sorting, some algorithms are there-->check  
+
+The problem is of binary search only when you have to check if given element is majority

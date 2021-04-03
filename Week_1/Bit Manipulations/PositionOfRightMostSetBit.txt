@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+
+int RightMostSetBit(int n)
+{ 
+    int position = 0;
+    while(n)
+    {
+    	if(n & 1)
+    	return position;
+    	else
+    	{
+    		n=n>>1;
+    		position++;
+		}	
+	}
+	return position;
+}
+};
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--) 
+	{
+		int n;
+		cin>>n;
+
+        Solution ob;
+		cout<<ob.RightMostSetBit(n)<<endl;
+	}
+	return 0;
+}
+
+done on dev c++
