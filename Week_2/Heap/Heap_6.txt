@@ -1,0 +1,88 @@
+Merge K Sorted Arrays of Same Size
+
+
+#include<bits/stdc++.h>
+#define N 105
+using namespace std;
+void printArray(vector<int> arr, int size)
+{
+for (int i=0; i < size; i++)
+	cout << arr[i] << " ";
+}
+
+
+
+
+
+class Solution
+{
+    public:
+    struct MinHeapNode{
+        int element;
+        int i;
+        int j;
+        MinHeapNode(int element,int i,int j)
+        {
+            this->element=element;
+            this->i=i;
+            this->j=j;
+        }
+    };
+    struct compare{
+        bool operator()(MinHeapNode *a,MinHeapNode *b)
+        {
+            return a->element>b->element;
+        }
+    };
+    vector<int> mergeKArrays(vector<vector<int>> arr, int k)
+    {
+         vector<int> v;
+         priority_queue<MinHeapNode*,vector<MinHeapNode*>,compare> minHeap;
+         for(int i=0;i<k;i++)
+         {
+             minHeap.push(new MinHeapNode(arr[i][0],i,1));
+         }
+         while(!minHeap.empty())
+         {
+             MinHeapNode *top=minHeap.top();
+             minHeap.pop();
+             v.push_back(top->element);
+             if(top->j<k)
+             {
+                top->element=arr[top->i][top->j];
+                top->j=(top->j)+1;
+                minHeap.push(top);
+             }
+         }
+       return v;  
+    }
+};
+
+
+
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--){
+	    int k;
+	    cin>>k;
+	    vector<vector<int>> arr(N, vector<int> (N, 0));
+	    for(int i=0; i<k; i++){
+	        for(int j=0; j<k; j++)
+	        {
+	            cin>>arr[i][j];
+	        }
+	    }
+	    Solution obj;
+    	vector<int> output = obj.mergeKArrays(arr, k);
+    	printArray(output, k*k);
+    	cout<<endl;
+    }
+	return 0;
+}
+
+
+done on gfg
+
+

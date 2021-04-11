@@ -1,0 +1,42 @@
+Reverse LL in groups of K
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode *prev=NULL,*curr=head,*next=NULL;
+        int c=0;
+        int number=0;
+        while(curr!=NULL)
+        {
+            curr=curr->next;
+            number++;
+        }
+        if(number<k)
+            return head;
+        curr=head;
+        while(curr!=NULL && c<k)
+        {
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+            c++;
+        }
+        if(next!=NULL)
+            head->next=reverseKGroup(next,k);
+        return prev;
+    }
+};
+
+done on leetcode 25 ,
+do swap nodes in pairs, swapping nodes in linked list

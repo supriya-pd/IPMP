@@ -1,0 +1,50 @@
+Merge K Sorted Linked Lists
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    struct compare{
+        bool operator()(ListNode *a,ListNode *b)
+        {
+            return a->val>b->val;
+        }
+    };
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        priority_queue<ListNode*,vector<ListNode*>,compare> minHeap;
+        int n=lists.size();
+        for(int i=0;i<n;i++)
+        {
+            if(lists[i])   // this condition had to be added because of [[]]
+            minHeap.push(lists[i]);
+        }
+        ListNode *head=new ListNode(0);
+        ListNode *ptr=head;
+        while(!minHeap.empty())
+        {
+            ListNode *node=minHeap.top();
+            minHeap.pop();
+            ptr->next=node;
+            ptr=ptr->next;
+            if(node->next)
+            {
+                minHeap.push(node->next);
+            }
+        }
+        ptr->next=NULL;
+        head=head->next;
+        return head;
+    }
+};
+
+leetcode 23
+next do merge two sorted lists,ugly number 2

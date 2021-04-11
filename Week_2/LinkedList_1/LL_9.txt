@@ -1,0 +1,51 @@
+Intersection Point Of2LL
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+       int c1=count(headA);
+       int c2=count(headB);
+       int d=abs(c1-c2);
+       int c=max(c1,c2);
+       if(c1<c2)
+       {
+           ListNode *temp=headB;
+           headB=headA;
+           headA=temp;
+       }
+        while(d--)
+        {
+            headA=headA->next;
+        }
+        while(headA!=NULL)
+        {
+            if(headA==headB)
+                return headA;
+            headA=headA->next;
+            headB=headB->next;
+        }
+        return NULL; 
+    }
+    int count(ListNode *head)
+    {
+        if(!head)
+            return 0;
+        int c=1;
+        while(head!=NULL)
+        {
+            head=head->next;
+            c++;
+        }
+        return c;
+    }
+};
+leetcode 160
+do next -- minimum index sum of two lists

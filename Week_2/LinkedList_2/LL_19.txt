@@ -1,0 +1,80 @@
+Vowels At End Of LL
+
+#include <bits/stdc++.h>
+using namespace std;
+struct Node{
+	char data;
+	Node *next;
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+	}
+};
+void printList(Node *head)
+{
+	while(head!=NULL)
+	{
+		cout<<head->data<<" ";
+		head=head->next;
+	}
+	cout<<endl;
+}
+void moveVowels(Node **head_ref)
+{
+	Node *head=*head_ref;
+	Node *ptr=head;
+	if(!ptr || !(ptr->next))
+	return;
+	while(ptr->next!=NULL)
+	{
+		ptr=ptr->next;
+	}
+	Node *end=ptr;
+	Node *dummy=new Node(0);
+	dummy->next=head;
+	Node *curr=head,*prev=dummy,*next=NULL;
+	while(curr!=end)
+	{
+		next=curr->next;
+		if(curr->data=='a' || curr->data=='e' || curr->data=='i' || curr->data=='o' || curr->data=='u')
+		{
+			prev->next=next;
+			ptr->next=curr;
+			curr->next=NULL;
+			ptr=ptr->next;
+		}else
+		{
+			prev=curr;
+		}
+		curr=next;
+	}
+	if(end->data=='a' || end->data=='e' || end->data=='i' || end->data=='o' || end->data=='u')
+	{
+		prev->next=end->next;
+		ptr->next=end;
+		end->next=NULL;
+		ptr=ptr->next;
+	}
+	*head_ref=dummy->next;
+}
+int main()
+{
+	int n;
+	cin>>n;
+	Node *head=new Node(0);  // dummy node
+	Node *ptr=head;
+	for(int i=0;i<n;i++)
+	{
+		char s;
+		cin>>s;
+		ptr->next=new Node(s);
+		ptr=ptr->next;
+	}
+	head=head->next;
+	printList(head);
+    moveVowels(&head);
+ 	printList(head);
+	return 0;
+}
+done on dev c++

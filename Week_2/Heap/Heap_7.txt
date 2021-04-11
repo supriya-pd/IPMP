@@ -1,0 +1,48 @@
+Median In Running Stream Of Integers
+
+class MedianFinder {
+public:
+    priority_queue<int> maxHeap;
+    priority_queue<int,vector<int>,greater<int> > minHeap;
+    MedianFinder() {
+       
+    }
+    
+    void addNum(int num) {
+        if(maxHeap.empty() || num<maxHeap.top())
+            maxHeap.push(num);
+        else
+            minHeap.push(num);
+        if(maxHeap.size()>minHeap.size()+1)
+        {
+             minHeap.push(maxHeap.top());
+             maxHeap.pop();
+        }else if(minHeap.size()>maxHeap.size()+1)
+        {
+            maxHeap.push(minHeap.top());
+            minHeap.pop();
+        } 
+    }
+    
+    double findMedian() {
+        double median;
+        if(minHeap.size()==maxHeap.size())
+        {
+            median=(double)(maxHeap.top()+minHeap.top())/2;
+        }else
+        {
+            median=(maxHeap.size()>minHeap.size())?maxHeap.top():minHeap.top();
+        }
+         return median;
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
+
+leetcode 295
+do sliding window median and mk average problem

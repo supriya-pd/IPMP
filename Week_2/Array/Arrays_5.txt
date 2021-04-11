@@ -1,0 +1,56 @@
+TwoNumbersWithOddNumberOfOccurrences
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    vector<int> twoOddNum(int Arr[], int n)  
+    {
+        vector<int> v;
+        int xo=0;
+        for(int i=0;i<n;i++)
+        {
+            xo=xo^Arr[i];
+        }
+        int set_bit_no=(xo) & ~(xo-1);
+        int x=0,y=0;
+        for(int i=0;i<n;i++)
+        {
+            if(set_bit_no & Arr[i])
+            x=x^Arr[i];
+            else
+            y=y^Arr[i];
+        }
+        if(x>=y){
+            v.push_back(x);
+            v.push_back(y);
+        }else
+        {
+            v.push_back(y);
+            v.push_back(x); 
+        }
+        return v;
+    }
+};
+
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin>>N;
+        int Arr[N];
+        for(int i = 0;i < N;i++)
+        cin>>Arr[i];
+        Solution ob;
+        vector<int>ans=ob.twoOddNum(Arr,N);
+        for(int i=0;i<ans.size();i++)cout<<ans[i]<<" ";
+        cout<<endl;
+    }
+    return 0;
+} 
+done on gfg

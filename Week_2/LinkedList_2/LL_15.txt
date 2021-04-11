@@ -1,0 +1,76 @@
+Reverse Alternate K Nodes LL
+
+#include <bits/stdc++.h>
+using namespace std;
+struct Node{
+	int data;
+	Node *next;
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+	}
+};
+void printList(Node *head)
+{
+	while(head!=NULL)
+	{
+		cout<<head->data<<" ";
+		head=head->next;
+	}
+	cout<<endl;
+}
+Node* reverseAlternateKNodes(Node *head,int k, bool flag)
+{
+	if(flag==true)
+	{
+		Node *prev=NULL,*curr=head,*next=NULL;
+		int c=0;
+		while(curr!=NULL && c<k)
+		{
+			next=curr->next;
+			curr->next=prev;
+			prev=curr;
+			curr=next;
+			c++;
+		}
+		if(next!=NULL)
+		head->next=reverseAlternateKNodes(next,k,false);
+		return prev;
+	}else
+	{
+		Node *ptr=head,*prev=NULL;
+		int c=0;
+		while(ptr!=NULL && c<k)
+		{
+			prev=ptr;
+			ptr=ptr->next;
+			c++;
+		}
+		if(ptr!=NULL)
+		prev->next=reverseAlternateKNodes(ptr,k,true);
+		return head;
+	}
+}
+int main()
+{
+	int n;
+	cin>>n;
+	int k;
+	cin>>k;
+	Node *head=new Node(0);  // dummy node
+	Node *ptr=head;
+	for(int i=0;i<n;i++)
+	{
+		int s;
+		cin>>s;
+		ptr->next=new Node(s);
+		ptr=ptr->next;
+	}
+	head=head->next;
+	printList(head);
+    head=reverseAlternateKNodes(head,k,true);
+ 	printList(head);
+	return 0;
+}
+done on dev c++

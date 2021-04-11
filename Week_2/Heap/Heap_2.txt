@@ -1,0 +1,42 @@
+K Most Frequent Words
+
+
+
+class Solution {
+public:
+   struct compare{
+       bool operator()(pair<string,int> &a,pair<string,int> &b)
+       {
+           if(a.second==b.second)
+               return a.first<b.first;
+           return a.second>b.second;
+       }
+   };
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        vector<string> v;
+        unordered_map<string,int> map;
+        int n=words.size();
+        for(int i=0;i<n;i++)
+        {
+            map[words[i]]++;
+        }
+        priority_queue<pair<string,int>,vector<pair<string,int>>,compare> heap;
+        for(auto x:map)
+        {
+            heap.push({x.first,x.second});
+            if(heap.size()>k)
+                heap.pop();
+        }
+        while(!heap.empty())
+        {
+            pair<string,int> p = heap.top();
+            heap.pop();
+            v.push_back(p.first);
+        }
+        reverse(v.begin(),v.end());
+        return v;
+    }
+};
+
+leetcode  692
+top k frequent elements, k closest points to origin, sort features by popularity

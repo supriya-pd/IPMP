@@ -1,0 +1,42 @@
+RecursiveReverseLL
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node{
+	int data;
+	Node *next;
+	Node(int data)
+	{
+		this->data=data;
+		next=NULL;
+    }
+};
+
+void printReverse(Node *head)
+{
+	if(head==NULL)
+	return;
+	printReverse(head->next);
+	cout<<head->data<<endl;
+}
+
+int main()
+{
+	Node *head=new Node(0); // creating dummy here else you have to take first input seperately
+	Node *tail=head;
+	int n;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+        int x;
+		cin>>x;	
+		tail->next=new Node(x);
+		tail=tail->next;
+	}
+	head=head->next;
+	printReverse(head);
+	return 0;
+}
+
+done on dev c++

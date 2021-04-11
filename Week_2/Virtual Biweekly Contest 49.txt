@@ -1,0 +1,8 @@
+1812--determine color of chessboard square -- 3
+1813--sentence similarity 3-------------------4
+1814--count nice pairs in array--------------5
+1815--maximum number of groups getting fresh donuts---6
+
+score 3+ 4*65/84=3.sth
+gave up before contest ended bec i have no clue of 1815 and 1813
+
