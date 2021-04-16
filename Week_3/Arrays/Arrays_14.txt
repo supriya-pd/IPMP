@@ -1,0 +1,47 @@
+Find least positive number missing in an unsorted array
+
+leetcode 41
+
+class Solution {
+public:
+    void swap(int *x,int *y)
+    {
+        int temp=*y;
+        *y=*x;
+        *x=temp;
+    }
+    long segregate(vector<int>& nums,int n)
+    {
+        long j=0;
+        for(long i=0;i<n;i++)
+        {
+            if(nums[i]<=0)
+            {
+                swap(&nums[i],&nums[j]);
+                j++;
+            }
+        }
+        return j;
+    }
+    int firstMissingPositive(vector<int>& nums) {
+        long n=nums.size();
+        long j=segregate(nums,n);
+          for(long i=j;i<n;i++)
+        {
+            if(abs(nums[i])-1+j<n && nums[abs(nums[i])-1+j]>0)
+                nums[abs(nums[i])-1+j]=-nums[abs(nums[i])-1+j];
+        }
+        for(int i=j;i<n;i++)
+        {
+            if(nums[i]>0)
+                return i-j+1;
+        }
+        return (int)(n-j+1);
+    }
+
+};
+
+j har jagah added to adjust index--gfg ka solution is more clear
+
+
+

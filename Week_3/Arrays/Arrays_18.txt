@@ -1,0 +1,75 @@
+pair with sum closest to zero
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Solution
+{
+    public:
+    bool static compare(int x,int y)
+    {
+        return abs(x)<abs(y);
+    }
+        int closestToZero(int arr[], int n)
+        {
+            sort(arr,arr+n,compare);
+            int min=INT_MAX;
+            int x,y;
+            for(int i=1;i<n;i++)
+            {
+                int sum=abs(arr[i]+arr[i-1]);
+                if(sum==min)
+                {
+                    if(arr[i]+arr[i-1]>0 && arr[x]+arr[y]<0)
+                    {
+                    min=sum;
+                    x=i-1;
+                    y=i;
+                    }
+                }else if(sum<min)
+                {
+                    min=sum;
+                    x=i-1;
+                    y=i;
+                }
+            }
+            return arr[x]+arr[y];
+        }
+};
+
+
+int main ()
+{
+    int t; 
+    cin >> t;
+    while (t--)
+    {
+        int n; 
+        cin >> n;
+        int arr[n];
+        for (int i = 0; i < n; i++)
+            cin >> arr[i];
+        Solution ob;
+        cout << ob.closestToZero(arr, n) << endl;
+    }
+}  
+
+done on gfg
+gfg method 3 solution is wrong because this test case failed, I had to add extra if conditions because of that
+
+Wrong Answer
+
+Possibly your code doesn't work correctly for multiple test-cases (TCs).
+
+The first test case where your code failed:
+
+Input:
+945
+62052 38879 51407 38246 30218 82288 86857 42638 76746 33367 7783 45411 -8301 42892 -4489 74778 26533 65729 38064 35137 46905 80307 48510 44144 77270 -5622 3293 3812 44497 9245 49575 40266 58124 34699 88512 22059 26982 9081 74698 37445 76170 -7524 -7148 77869 69090 -1637 86365 5619 -2191 34424 50756 78436 48449 32983 56297 35714 61084 69591 49526 15576 88836 32818 89564 80678 77517 11788 12732 38217 30870 21147 85662 17035 47346 88514 28622 26431 20594 24982 42050 52126 -6877 26523 40557 5157.................
+
+Its Correct output is:
+1
+
+And Your Code's output is:
+-1

@@ -1,0 +1,23 @@
+Two Sum Problem, find two elements in array which sum to given value
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> um;
+        int n=nums.size();
+        vector<int> ans;
+        for(int i=0;i<n;i++)
+        {
+            int t=target-nums[i];
+            if(um.find(t)!=um.end())
+            {
+                ans.push_back(um.find(t)->second); ans.push_back(i);
+                return ans;
+            }
+            um[nums[i]]=i;
+        }
+        return ans;
+    }
+};
+
+leetcode 1
