@@ -1,0 +1,27 @@
+Segreagte even and odd numbers
+
+leetcode 905
+class Solution {
+public:
+    void swap(int *a,int *b)
+    {
+        int temp=*a;
+        *a=*b;
+        *b=temp;
+    }
+    vector<int> sortArrayByParity(vector<int>& A) {
+        int j=0;
+        int n=A.size();
+        for(int i=0;i<n;i++)
+        {
+            if(A[i]%2==0)
+            {
+                swap(&A[i],&A[j]);
+                j++;
+            }
+        }
+        return A;
+    }
+};
+
+used one pointer only, not the dutch flag thing

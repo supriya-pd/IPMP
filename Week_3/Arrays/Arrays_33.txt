@@ -1,0 +1,36 @@
+Given an array [a1b2c3d4] convert to [abcd1234]
+done on devc++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void rearrange(string s)
+{
+	int n=s.length();
+	int shifts=0;
+	int maxShifts=n-2;
+	for(int i=1;i<n && shifts<maxShifts;i+=2)
+	{
+		int source=i;
+		char itemToMove=s[source];
+		do{
+			int target;
+			if(source%2==0)
+			target=n/2;
+			else
+			target=n/2+source/2;
+			char temp=s[target];
+			s[target]=itemToMove;
+			itemToMove=temp;
+			shifts++;
+			source=target;
+		}while(source!=i && shifts<maxShifts);
+	}
+	cout<<s;
+}
+int main()
+{
+	string s="a1b2c3d4";
+	rearrange(s);
+	return 0;
+}
