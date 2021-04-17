@@ -1,0 +1,56 @@
+Merge sort
+leetcode 148
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void FrontBackSplit(ListNode *head,ListNode **a_ref,ListNode **b_ref)
+    {
+        ListNode *fast=head->next;// bec in odd length extra node goes in frontlist
+        ListNode *slow=head; 
+        while(fast && fast->next)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        (*a_ref)=head;
+        (*b_ref)=slow->next;
+        slow->next=NULL;
+    }
+    ListNode *SortedMerge(ListNode *a,ListNode *b)
+    {
+        if(!a)
+            return b;
+        if(!b)
+            return a;
+        ListNode *result=NULL;
+            if(a->val<=b->val)
+            {
+                result=a;
+                result->next=SortedMerge(a->next,b);
+            }else
+            {
+                result=b;
+                result->next=SortedMerge(a,b->next);
+            }
+        return result;
+    }
+    ListNode* sortList(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+        return head;
+        ListNode *a; ListNode *b;
+        FrontBackSplit(head,&a,&b);
+        a=sortList(a);
+        b=sortList(b);
+        head=SortedMerge(a,b);
+        return head;
+    }
+};

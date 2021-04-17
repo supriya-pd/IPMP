@@ -1,0 +1,61 @@
+Swap Kth node from beginning with Kth node from end in a Linked List
+leetcode 1721
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int countNodes(ListNode *head)
+    {
+        int c=0;
+        while(head!=NULL)
+        {
+            head=head->next;
+            c++;
+        }
+        return c;
+    }
+    ListNode* swapNodes(ListNode* head, int k) {
+        int n=countNodes(head);
+        if(n==2*k-1) // n=n-k+1
+            return head;
+        ListNode *x=head;
+        ListNode *xp=NULL;
+        int c=1;
+        while(c<k)
+        {
+            xp=x;
+            x=x->next;
+            c++;
+        }
+        ListNode *y=head;
+        ListNode *yp=NULL;
+        c=1;
+        int t=n-k+1;
+        while(c<t)
+        {
+            yp=y;
+            y=y->next;
+            c++;
+        }
+        if(xp)
+            xp->next=y;
+        if(yp)
+            yp->next=x;
+        ListNode *temp=x->next;
+        x->next=y->next;
+        y->next=temp;
+        if(k==1)
+            return y;
+        if(k==n)
+            return x;
+        return head;
+    }
+};

@@ -1,0 +1,85 @@
+Add two numbers represented by linked lists
+leetcode 445
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int countNodes(ListNode *l)
+    {
+        int c=0;
+        while(l)
+        {
+            l=l->next;
+            c++;
+        }
+        return c;
+    }
+    void swap(ListNode **l1,ListNode **l2)
+    {
+        ListNode *temp=*l1;
+        *l1=*l2;
+        *l2=temp;
+    }
+    void push_to_front(ListNode **l,int data)
+    {
+        ListNode *node=new ListNode(data);
+        node->next=(*l);
+        *l=node;
+    }
+    ListNode* addSameSize(ListNode *l1,ListNode *l2,int *carry)
+    {
+        if(!l1)
+            return NULL;
+        ListNode *result=new ListNode();
+        result->next=addSameSize(l1->next,l2->next,carry);
+        int sum=l1->val+l2->val+(*carry);
+        result->val=sum%10;
+        (*carry)=sum/10;
+        return result;
+    }
+    void addRemainingCarry(ListNode *l,ListNode *curr,int *carry,ListNode **result_ref)
+    {
+        if(l==curr)
+            return;
+        addRemainingCarry(l->next,curr,carry,result_ref);
+        int sum=l->val+(*carry);
+        *carry=sum/10;
+        sum=sum%10;
+        push_to_front(result_ref,sum);
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        int c1=countNodes(l1);
+        int c2=countNodes(l2);
+        ListNode *result;
+        int carry=0;
+        if(c1==c2)
+        {
+            result=addSameSize(l1,l2,&carry);
+        }else
+        {
+            int diff=abs(c1-c2);
+            if(c1<c2)
+                swap(&l1,&l2);
+            ListNode *curr=l1;
+            for(;diff--;curr=curr->next);
+            result=addSameSize(curr,l2,&carry);
+            addRemainingCarry(l1,curr,&carry,&result);
+        }
+        if(carry)
+            push_to_front(&result,carry);
+        return result;
+    }
+};
