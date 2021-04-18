@@ -1,0 +1,110 @@
+#include <bits/stdc++.h>
+using namespace std;
+  
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void printList(struct Node* node)
+{
+    while (node != NULL) {
+        cout << node->data << " ";
+        node = node->next;
+    }
+    cout << endl;
+}
+  
+
+Node* newNode(int key)
+{
+    Node* temp = new Node;
+    temp->data = key;
+    temp->next = NULL;
+    return temp;
+}
+
+Node* front(Node* head, int val)
+{
+    Node* temp = newNode(val);
+    temp->next = head;
+    head = temp;
+    return head;
+}
+  
+
+void rearrange(Node** head)
+{
+  
+    Node* even;
+    Node *temp, *prev_temp;
+    Node *i, *j, *k, *l, *ptr;
+  
+    temp = (*head)->next;
+    prev_temp = *head;
+  
+    while (temp != nullptr) {
+  
+        Node* x = temp->next;
+  
+        if (temp->data % 2 != 0) {
+            prev_temp->next = x;
+            temp->next = (*head);
+            (*head) = temp;
+        }
+        else {
+            prev_temp = temp;
+        }
+  
+        temp = x;
+    }
+
+    temp = (*head)->next;
+    prev_temp = (*head);
+  
+    while (temp != nullptr && temp->data % 2 != 0) {
+        prev_temp = temp;
+        temp = temp->next;
+    }
+  
+    even = temp;
+  
+    prev_temp->next = nullptr;
+  
+    i = *head;
+    j = even;
+  
+    while (j != nullptr && i != nullptr) {
+        k = i->next;
+        l = j->next;
+  
+        i->next = j;
+        j->next = k;
+ 
+        ptr = j;
+  
+        i = k;
+        j = l;
+    }
+  
+    if (i == nullptr) {
+        ptr->next = j;
+    }
+ 
+}
+
+int main()
+{
+    Node* head=newNode(8);
+    head=front(head,7);
+    head=front(head,6);
+    head=front(head,3);
+    head=front(head,5);
+    head=front(head,1);
+    head=front(head,2);
+    head=front(head,10);
+    printList(head);
+    rearrange(&head);
+    printList(head);
+    return 0;
+}
