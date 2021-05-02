@@ -1,0 +1,19 @@
+leetcode 152 - maximum product subarray
+
+class Solution {
+public:
+    int maxProduct(vector<int>& a) {  // [-3,-1,-1] , [2,0,-2], [2,-5,-2,4,3]
+        int n=a.size();
+        int max_ending_here=a[0];
+        int min_ending_here=a[0];
+        int max_overall=a[0];
+        for(int i=1;i<n;i++)
+        {
+            int temp=max_ending_here;
+            max_ending_here=max({a[i],max_ending_here*a[i], min_ending_here*a[i]});
+            min_ending_here=min({a[i],temp*a[i], min_ending_here*a[i]});
+            max_overall=max(max_ending_here,max_overall);
+        }
+        return max_overall;
+    }
+};
