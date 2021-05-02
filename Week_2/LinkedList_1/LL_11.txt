@@ -72,7 +72,7 @@ class Solution{
         }
         while(head1!=NULL)
         {
-            if(s.find(head1->data)!=s.end())
+            if(s.find(head1->data)!=s.end())                        // even if u have used hashmap , one eg is given below, that would case will not work, so u will have to add extra if condition just like u have done in union
             {
                 Node *node=new Node(head1->data);
                 ptr->next=node;

@@ -1,12 +1,21 @@
+There was no problem called swap even and odd nodes--so this is rearrange alternatingly even and odd nodes in a singly linked list
+done on ide
+
+
 #include <bits/stdc++.h>
 using namespace std;
   
 struct Node {
     int data;
     struct Node* next;
+    Node(int x)
+    {
+    	this->data=x;
+    	this->next=NULL;
+	}
 };
 
-void printList(struct Node* node)
+void printList(Node* node)
 {
     while (node != NULL) {
         cout << node->data << " ";
@@ -14,97 +23,74 @@ void printList(struct Node* node)
     }
     cout << endl;
 }
-  
-
-Node* newNode(int key)
+Node *AlternateMerge(Node *a,Node *b)
 {
-    Node* temp = new Node;
-    temp->data = key;
-    temp->next = NULL;
-    return temp;
+	Node *result=a;
+	Node *prev=NULL;
+	while(a && b)
+	{
+		Node *a_next=a->next; Node *b_next=b->next;
+	    a->next=b;
+	    b->next=a_next;
+	    prev=b;
+	    a=a_next;
+	    if(a)
+	    prev=a;
+	    b=b_next;
+	}
+	/*if(a)
+	prev->next=a->next;*/   //---> this condition isn't needed
+	if(b)
+	prev->next=b;
+	return result;
 }
-
-Node* front(Node* head, int val)
+void segregate(Node *head,Node **a_ref,Node **b_ref)
 {
-    Node* temp = newNode(val);
-    temp->next = head;
-    head = temp;
-    return head;
+	Node *odd=new Node(1);
+	Node *even=new Node(0);
+	Node *op=odd;
+	Node *ep=even;
+	Node *ptr=head;
+	while(ptr!=NULL)
+	{
+		if((ptr->data)%2==0)
+		{
+			even->next=ptr;
+			even=even->next;
+		}else
+		{
+			odd->next=ptr;
+			odd=odd->next;
+		}
+		ptr=ptr->next;
+	}
+	odd->next=NULL;
+	even->next=NULL;
+	*a_ref=op->next;
+	*b_ref=ep->next;
 }
-  
-
-void rearrange(Node** head)
+void alternateEvenOdd(Node **head_ref)
 {
-  
-    Node* even;
-    Node *temp, *prev_temp;
-    Node *i, *j, *k, *l, *ptr;
-  
-    temp = (*head)->next;
-    prev_temp = *head;
-  
-    while (temp != nullptr) {
-  
-        Node* x = temp->next;
-  
-        if (temp->data % 2 != 0) {
-            prev_temp->next = x;
-            temp->next = (*head);
-            (*head) = temp;
-        }
-        else {
-            prev_temp = temp;
-        }
-  
-        temp = x;
-    }
-
-    temp = (*head)->next;
-    prev_temp = (*head);
-  
-    while (temp != nullptr && temp->data % 2 != 0) {
-        prev_temp = temp;
-        temp = temp->next;
-    }
-  
-    even = temp;
-  
-    prev_temp->next = nullptr;
-  
-    i = *head;
-    j = even;
-  
-    while (j != nullptr && i != nullptr) {
-        k = i->next;
-        l = j->next;
-  
-        i->next = j;
-        j->next = k;
- 
-        ptr = j;
-  
-        i = k;
-        j = l;
-    }
-  
-    if (i == nullptr) {
-        ptr->next = j;
-    }
- 
+	Node *a,*b;
+	segregate(*head_ref,&a,&b);
+	*head_ref=AlternateMerge(a,b);
 }
-
 int main()
 {
-    Node* head=newNode(8);
-    head=front(head,7);
-    head=front(head,6);
-    head=front(head,3);
-    head=front(head,5);
-    head=front(head,1);
-    head=front(head,2);
-    head=front(head,10);
-    printList(head);
-    rearrange(&head);
-    printList(head);
+    Node* head=new Node(1);
+    Node *ptr=head;
+    int n;
+    cin>>n;
+    int x;
+    while(n--)
+    {
+    	cin>>x;
+    	ptr->next=new Node(x);
+    	ptr=ptr->next;
+	}
+	head=head->next;
+	printList(head);
+	alternateEvenOdd(&head);
+	printList(head);
     return 0;
 }

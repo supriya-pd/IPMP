@@ -1,0 +1,36 @@
+maximum length bitonic subarray - done on gfg
+
+class Solution{
+public:	
+	
+	int bitonic(vector<int> a, int n) {
+	    if(!n)
+	    return 0;
+	    int mL=1;
+	    int cL=1;
+	    int i;
+	    int start=1;
+	    int nextStart;
+	    while(i<n)
+	    {
+	        i=start;
+	        while(a[i-1]<=a[i] && i<n)
+	        {
+	            i++;
+	            cL=cL+1;
+	        }
+	   
+	        while(a[i-1]>=a[i] && i<n)
+	        {
+	            if(a[i-1]>a[i])
+	            nextStart=i+1;
+	            i++;
+	            cL++;
+	        }
+	        mL=max(mL,cL);
+	        cL=1;
+	        start=nextStart;
+	    }
+	    return mL;
+	}
+};

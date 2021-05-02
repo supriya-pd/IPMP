@@ -1,0 +1,28 @@
+Maximum repeating number - gfg
+
+class Solution{
+public:	
+	// Returns maximum repeating element in arr[0..n-1].
+	// The array elements are in range from 0 to k-1
+	int maxRepeating(int *arr, int n, int k) {
+	    for(int i=0;i<n;i++)
+	    {
+	        arr[arr[i]%n]=arr[arr[i]%n]+n;
+	    }
+	    int maxi =0;
+	    int ans;
+	    for(int i=0;i<n;i++)
+	    {
+	       if(arr[i]/n > maxi)
+	       {
+	           maxi = arr[i]/n;
+	           ans = i;
+	       }else if(arr[i]/n == maxi)
+	       {
+	           ans = min(ans,i);
+	       }
+	    }
+	    return ans;
+	}
+
+};

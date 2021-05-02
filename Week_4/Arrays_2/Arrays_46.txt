@@ -1,0 +1,19 @@
+maximum subsequence sum without adjacents in an array of positive numbers-done on gfg
+
+class Solution{
+public:	
+	// calculate the maximum sum with out adjacent
+	int findMaxSum(int *a, int n) {
+	    if(!n)
+	    return 0;
+	    int inc = a[0];  // stores max tat I can do with including this
+	    int exc = 0;   // stores max that I can do without including this
+	    for(int i=1;i<n;i++)
+	    {
+	        int temp = inc;
+	        inc = max(inc,exc+a[i]);
+	        exc = temp;
+	    }
+	    return max(inc,exc);
+	}
+};

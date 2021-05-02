@@ -1,0 +1,23 @@
+Rotate an array by k elements - leetcode 189
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n=nums.size();
+        k=k%n;
+        int c=0;
+        for(int start = 0;c<n;start++)
+        {
+            int curr = start;
+            int t = nums[start];
+            do{
+                int next = (curr+k)%n;
+                int temp = nums[next];
+                nums[next] = t;
+                t = temp;  //  we were modifying nums[next], so had to store somehwere
+                curr = next;
+                c++;
+            }while(curr!=start);
+        }
+    }
+};

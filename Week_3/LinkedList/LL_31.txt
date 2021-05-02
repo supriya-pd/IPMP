@@ -1,3 +1,6 @@
+Clone  a linked list with arbitrary pointer
+done on gfg
+
 // { Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
@@ -178,35 +181,35 @@ struct Node {
 
 //Function to clone a linked list with next and random pointer.
 Node *copyList(Node *head) {
-if (head == NULL) 
-return head;
-
-Node *t = head;
-while (t != NULL)
-{
-Node *n = new Node(t->data);
-n->next = t->next;
-t->next = n;
-t = n->next;
-}
-t = head;
-Node *head2 = head->next;
-while (t != NULL) {
-if (t->arb == NULL)
-t->next->arb = NULL;
-else
-{
-t->next->arb = t->arb->next;
-}
-t = t->next->next;
-}
-t = head;
-while (t != NULL) 
-{
-t->next = t->next->next;
-t = t->next;
-}
-
-return head2;
-
+    if(head==NULL)
+    return head;
+    
+    Node *ptr=head;
+    while(ptr!=NULL)
+    {
+        Node *node =new Node(ptr->data);
+        Node *temp=ptr->next;
+        ptr->next=node;
+        node->next=temp;
+        ptr=temp;
+    }
+    ptr=head;
+    while(ptr!=NULL)
+    {
+        if(ptr->arb!=NULL)   // this condition is very important, arbitrary pointer could be null, so handle that case
+            ptr->next->arb=ptr->arb->next;
+        ptr=ptr->next->next;
+    }
+    ptr=head;
+    Node *copy = head->next;
+    Node *save = copy;
+    while((copy->next)!=NULL)
+    {
+        ptr->next=ptr->next->next;
+        ptr=ptr->next;  
+        copy->next=copy->next->next;
+        copy=copy->next;
+    }
+    ptr->next=NULL;
+    return save;
 }

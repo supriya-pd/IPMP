@@ -1,0 +1,40 @@
+leetcode 54-spiral matrix
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> v;
+        int r = matrix.size();
+        int c = matrix[0].size();
+        int top = 0,left=0,right=c-1,bottom=r-1;
+        int i;
+        int dir=0;
+        while(top<=bottom && left<=right)
+        {
+            switch(dir)
+            {
+                case 0:
+                    for(i=left;i<=right;i++)
+                        v.push_back(matrix[top][i]);
+                    top++;
+                    break;
+                case 1:
+                     for(i=top;i<=bottom;i++)
+                         v.push_back(matrix[i][right]);
+                     right--;
+                    break;
+                case 2:
+                    for(i=right;i>=left;i--)
+                        v.push_back(matrix[bottom][i]);
+                    bottom--;
+                    break;
+                case 3:
+                    for(i=bottom;i>=top;i--)
+                        v.push_back(matrix[i][left]);
+                    left++;
+            }
+            dir=(dir+1)%4;
+         }
+        return v;
+    }
+};

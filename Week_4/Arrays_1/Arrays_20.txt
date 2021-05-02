@@ -1,5 +1,5 @@
 leetcode 442
-Find All Duplicates--mod wala soltion works even if numbers are repeated any number of times
+Find All Duplicates--mod wala solution works even if numbers are repeated any number of times
 
 class Solution {
 public:

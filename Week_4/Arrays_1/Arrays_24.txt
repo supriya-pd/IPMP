@@ -1,0 +1,22 @@
+leetcode 799 champagne tower
+
+class Solution {
+public:
+    double champagneTower(int poured, int query_row, int query_glass) {
+        int n = query_row+1;
+        vector<vector<double>> v(n,vector<double>(n,0));
+        v[0][0]=poured;
+        for(int row=0;row<query_row;row++)
+        {
+            for(int col = 0;col<=row;col++)
+            {
+                double X=v[row][col];
+                v[row][col]=(X>1)?1.0:X;
+                X=(X>1)?(X-1):0;
+                v[row+1][col]+=X/2;
+                v[row+1][col+1]+=X/2;
+            }
+        }
+        return min(v[query_row][query_glass],1.0);   min krna pada bec 1 se jyada hua toh overflow krega na, bec capacity is 1
+    }
+};

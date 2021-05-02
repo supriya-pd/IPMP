@@ -1,0 +1,16 @@
+Stocks Buy Sell part 1--leetcode 121 
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int minSoFar=prices[0];
+        int maxProfit = 0;
+        int n=prices.size();
+        for(int i=1;i<n;i++)
+        {
+            minSoFar=min(prices[i],minSoFar);
+            maxProfit=max(maxProfit,prices[i]-minSoFar);
+        }
+        return maxProfit;
+    }
+};

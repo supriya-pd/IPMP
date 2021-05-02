@@ -1,0 +1,38 @@
+print last ten lines of a file-microsoft interview
+done on ide
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void printLastTenLines(char *str,int n)
+{
+	int c=0;
+	int ptr=strlen(str)-1;
+	while(c<n)
+	{
+		while(ptr>=0 && str[ptr]!='\n')
+		ptr--;
+		if(ptr>=0)
+		{
+			ptr--;
+			c++;
+		}
+		else
+		break;
+	}
+	if(ptr>=0)
+	ptr=ptr+2;
+	else
+	ptr=ptr+1;
+	cout<<str+ptr;
+}
+int main()
+{
+	char *str1="s1\ns2\ns3\ns4\ns5\ns6\ns7\ns8\ns9\ns10\ns11\ns12";
+	char *str2="s1\ns2\ns3\ns4\ns5\ns6\ns7\ns8\ns9";
+	char *str3="s1\ns2\ns3\ns4\ns5\ns6\ns7\ns8\n\ns9\ns10\ns11\ns12";
+	char *str4="\n";
+	char *str5="";
+	char *str6="\ns1\ns2\ns3\ns4\ns5\ns6\ns7\ns8\ns9";
+	printLastTenLines(str5,10);
+}
