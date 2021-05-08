@@ -1,0 +1,57 @@
+inplace matrix transpose from R x C to C x R --done on ide
+loc = r*C+c
+nl = (ol +R)%(N-1)  where n = R*C -- permutation cycles, also first and last element stays in their place
+logic is similar to string transformation a1b2c3d4 to abcd1234
+
+#include <bits/stdc++.h>
+using namespace std;
+void print2DArray(int *a,int r,int c)
+{
+	for(int i=0;i<r;i++)
+	{
+		for(int j=0;j<c;j++)
+		{
+			cout<<a[i*c+j]<<"\t";   // location = r*C+c;
+		}
+		cout<<endl;
+	}
+	cout<<endl;
+}
+void transpose(int *a,int r,int c)
+{
+	int n=r*c-1;
+	vector<bool> b(n+1,0);
+	b[0]=1;
+	b[n]=1;
+	int t;
+	int i=1;
+	int start;
+	int next;
+	
+	while(i<n)
+	{
+		start=i;
+		t=a[i];
+		do{
+			next = (i*r)%n;
+			swap(a[next],t);
+			b[i]=1;
+			i=next;
+		}while(i!=start);
+		for(i=1;i<n && b[i];i++);
+		cout<<endl;
+	}
+}
+int main()
+{
+	int r=5;
+	int c=6;
+	int size = r*c;
+	int *a=new int[size];
+	for(int i=0;i<size;i++)
+	a[i]=i+1;
+	print2DArray(a,r,c);
+	transpose(a,r,c);
+	print2DArray(a,c,r);
+	return 0;
+}

@@ -1,0 +1,10 @@
+height of BT--gfg
+
+int height(Node* root)
+{
+   if(!root)
+   return 0;
+   
+   return ((height(root->left)>=height(root->right)?height(root->left):height(root->right))+1);
+    
+}

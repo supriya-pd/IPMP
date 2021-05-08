@@ -1,0 +1,19 @@
+diameter of BT-gfg
+number of nodes in longest path between two end nodes
+
+int height(Node *root)
+{
+    if(!root)
+    return 0;
+    
+    return 1+max(height(root->left),height(root->right));
+}
+int diameter(Node* root) {
+    if(!root)
+    return 0;
+    
+    int lh=height(root->left);
+    int rh=height(root->right);
+    
+    return max(lh+rh+1,max(diameter(root->left),diameter(root->right)));
+}

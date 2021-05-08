@@ -1,0 +1,53 @@
+prorder, Inorder, postorder traversals--leetcode 144,94,145
+
+class Solution {
+public:
+    void pre(TreeNode* root,vector<int>& v)
+    {
+        if(!root)
+            return;
+        v.push_back(root->val);
+        pre(root->left,v);
+        pre(root->right,v);
+    }
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> v;
+        pre(root,v);
+        return v;
+    }
+};
+
+
+class Solution {
+public:
+    void in(TreeNode* root,vector<int>& v)
+    {
+        if(!root)
+            return;
+        in(root->left,v);
+        v.push_back(root->val);
+        in(root->right,v);
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> v;
+        in(root,v);
+        return v;
+    }
+};
+
+class Solution {
+public:
+    void post(TreeNode* root,vector<int>& v)
+    {
+        if(!root)
+            return;
+        post(root->left,v);
+        post(root->right,v);
+         v.push_back(root->val);
+    }
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> v;
+        post(root,v);
+        return v;
+    }
+};

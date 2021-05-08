@@ -1,0 +1,59 @@
+diagonal traverse a matrix - n x m , done on ide
+
+#include <bits/stdc++.h>
+using namespace std;
+void printMat(int m[5][4])
+{
+	for(int i=0;i<5;i++)
+	{
+		for(int j=0;j<4;j++)
+		{
+			cout<<m[i][j]<<" ";
+		}
+		cout<<endl;
+	}	
+}
+void diagonal(int m[5][4])
+{
+	int r = 5;
+	int c = 4;
+	
+	for(int i=0;i<r;i++)
+	{
+		int rN = i;
+		int cN = 0;
+		while(rN>=0 && cN<c)
+		{
+			cout<<m[rN][cN]<<" ";
+			rN--;
+			cN++;
+		}
+		cout<<endl;
+	}
+	for(int j=1;j<c;j++)
+	{
+		int rN=r-1;
+		int cN=j;
+		while(cN<c)
+		{
+			cout<<m[rN][cN]<<" ";
+			rN--;
+			cN++;			
+		}
+		cout<<endl;
+	}
+}
+int main()
+{
+	int m[5][4];
+	for(int i=0;i<5;i++)
+	{
+		for(int j=0;j<4;j++)
+		{
+			m[i][j]=i*4+j+1;
+		}
+	}
+	printMat(m);
+	cout<<endl;
+	diagonal(m);
+}

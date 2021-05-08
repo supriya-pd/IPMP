@@ -1,0 +1,27 @@
+max width of BT-gfg
+
+int getMaxWidth(Node* root)
+{
+    
+   if(!root)
+   return 0;
+   
+   queue<Node *> q;
+   q.push(root);
+   int max_nodes=0;
+   while(!q.empty())
+   {
+     int count=q.size(); int nodes=0;
+     while(count--)
+     {
+         Node *temp=q.front(); q.pop();
+         ++nodes;
+         if(temp->left)
+         q.push(temp->left);
+         if(temp->right)
+         q.push(temp->right);
+     }
+     max_nodes=max(nodes,max_nodes);
+   }
+   return max_nodes;
+}

@@ -1,0 +1,64 @@
+intersection of n sets--done on ide
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void getIntersection(vector<vector<int> > &v)
+{
+	int n=v.size();
+	// sort all sets and find set of smallest size
+	int s = v[0].size();
+	int sI = 0;
+	for(int i=0;i<n;i++)
+	{
+		sort(v[i].begin(),v[i].end());
+		if(v[i].size()<s)
+		{
+			s=v[i].size();
+			sI=i;
+		}
+	}
+	map<int,int> m; // store elements of smallest set and their frequency
+	for(int i=0;i<s;i++)
+	{
+		m[v[sI][i]]++;
+	}
+	map<int,int>::iterator it;
+	for(it =m.begin();it!=m.end();it++)
+	{
+		int e = it->first;
+		int f =it->second;
+		bool found = true;
+		for(int i=0;i<n;i++)
+		{
+			if(i!=sI)
+			{
+				if(binary_search(v[i].begin(),v[i].end(),e))
+				{
+					int l = lower_bound(v[i].begin(),v[i].end(),e)-v[i].begin();  // to convert to int
+					int r = upper_bound(v[i].begin(),v[i].end(),e)-v[i].begin();
+					if((r-l)<f)
+					f=(r-l);
+					
+				}else
+				{
+					found = false;
+					break;
+				}
+			}
+		}
+		if(found) // true means found in all sets
+		{
+			for(int i=0;i<f;i++)
+			cout<<e<<" ";
+		}
+	}
+}
+int main()
+{
+	vector<vector<int> > v;
+	v.push_back({2,2,3,4,6,6,6});
+	v.push_back({2,4,6,6,6});
+	v.push_back({2,4,6,6});
+	getIntersection(v);
+}
