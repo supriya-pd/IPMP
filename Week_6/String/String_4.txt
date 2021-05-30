@@ -1,0 +1,71 @@
+Reverse words in string -- leetcode 151
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        istringstream ss(s);
+        string w;
+        string ans="";
+        while(ss>>w)
+        {
+            ans = w+" "+ans;
+        }
+        ans.resize(ans.size()-1);
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        // we can use istringstream to seperate words and keep adding them in ans string
+        
+        // but to do it in in-place - reverse each word then reverse entire string
+        
+        //but this solution won't handle case when multiple spaces are present because one needs to erase them, so O(n) will be used
+        int n=s.length();
+        int start = 0;
+        bool flag = true;
+        int i;
+        for(i=0;i<n;)
+        {
+            if(flag && s[i]==' ')
+            {
+                i++;
+            }else if(s[i]==' ')
+            {
+                flag = true;
+                int j = i-1;
+                while(start<j)
+                {
+                    char t = s[start];
+                    s[start]=s[j];
+                    s[j]=t;
+                    start++;
+                    j--;
+                }
+            }else if(flag && s[i]!=' ')
+            {
+                flag = false;
+                start=i;
+                i++;
+            }else
+            {
+                i++;
+            }
+        }
+        // for last word
+        int j = i-1;
+                while(start<j)
+                {
+                    char t = s[start];
+                    s[start]=s[j];
+                    s[j]=t;
+                    start++;
+                    j--;
+                }
+        reverse(s.begin(),s.end());
+        return s;
+    }
+};

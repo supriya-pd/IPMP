@@ -1,0 +1,17 @@
+nodes at distance k from BT -gfg
+
+void util(vector<int>& v,Node *root,int k)
+{
+    if(!root)
+    return;
+    if(k==0)
+    v.push_back(root->data);
+    util(v,root->left,k-1);
+    util(v,root->right,k-1);
+}
+vector<int> Kdistance(struct Node *root, int k)
+{
+  vector<int> v;
+  util(v,root,k);
+  return v;
+}

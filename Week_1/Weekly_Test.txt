@@ -1,0 +1,121 @@
+test- https://www.hackerrank.com/contests/cse-nitt-thor/challenges
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+reach on time version 1 - it was simple math -AProgression - but i complicated it by creating an array - so don't do that
+
+this question -- codeforces problem 750 A
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+lily homework - minimum number of swaps to make array beautiful - array is beautiful only if sum of | arr[i]-arr[i-1]| for 0<i<n is minimal
+notice that for an array to be beautiful it should either be ascending or descending
+
+we just need to count the number of swaps to sort array- but count number of swaps both to sort array in ascending and descending, then consider minimum 
+- in order to reuse the same function, first pass vector then reverse and pass same vector
+
+int swaps_count(vector<int> arr)
+{
+        int n = arr.size();
+    int s = 0;
+    bool f =false;
+    int min = 0;
+    for(int i=0;i<n-1;i++)
+    {
+        min = i;
+        f= false;
+        for(int j = i+1;j<n;j++)
+        {
+            if(arr[j]<arr[min])
+            {
+                min = j;
+                f = true;
+            }
+        }
+        if(f)
+        {
+            s++;
+            int t =arr[min];
+            arr[min] = arr[i];
+            arr[i]=t;
+        }
+    }
+    return s;
+}
+int lilysHomework(vector<int> arr) {
+    
+int s = swaps_count(arr);
+    reverse(arr.begin(),arr.end());
+    int p =swaps_count(arr);
+    return min(s,p);
+
+}
+
+
+
+for handling tle - u have to do sth - we use a hashmap to store element and it's index ---> https://www.youtube.com/watch?v=W8oGaAEOeRU
+
+void swap(int *a,int *b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+int swaps_count(vector<int> arr)
+{
+    
+    int n = arr.size();
+    unordered_map<int,int> m; // element and then it's index
+    for(int i=0;i<n;i++)
+    {
+        m[arr[i]]=i;
+    }
+    vector<int> v;
+    v=arr;  // original array
+    sort(arr.begin(),arr.end());  // arr is now sorted in ascending order
+    int s = 0;
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]!=v[i])  // comparing with sorted array
+        {
+            s++;
+            int index = m[arr[i]];
+            swap(&v[i],&v[index]);
+            m[v[i]]=i;
+            m[v[index]]=index;
+        }
+    }
+    return s;
+}
+int lilysHomework(vector<int> arr) {
+    
+int s = swaps_count(arr);
+    reverse(arr.begin(),arr.end());
+    int p =swaps_count(arr);
+    return min(s,p);
+
+}
+
+related question - find minimum number of swaps to sort array - hashmap approach( because of sorting tc is O(nlogn)
+if question is find minimum number of swaps only adjacent swapping allowed - then simply count inversions
+--------------------------------------------------------------------------------
+
+the great xor problem-- here x is given you have to count all a such tha 0<a<x and (a XOR x) > x
+
+so you can do it in log n time -- you just need to observe that if we count say 4, then 5,6,7 will be there, and if we count 8, then till 15 all numbers will there
+-- this can be easily seen if u just interpret sample cases in bits
+
+
+long theGreatXor(long x) {
+    
+    long a = 1;
+    long c = 0;
+    while(a<x)
+    {
+        long t = a*2;
+        if((a^x)>x)
+            c = c+(t-a);
+        a = t;
+    }
+return c;
+}
+-------------------------------------------------------------------------------------
+
+last question was leetcode ugly number 2

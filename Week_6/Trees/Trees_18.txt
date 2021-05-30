@@ -1,0 +1,10 @@
+count leaves in BT - gfg
+
+int countLeaves(Node* root)
+{
+  if(!root)
+  return 0;
+  if(!root->right && !root->left)
+  return 1;
+  return countLeaves(root->right)+countLeaves(root->left);
+}

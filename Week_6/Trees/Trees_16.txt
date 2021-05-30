@@ -1,0 +1,38 @@
+zig zag traversal using deque - gfg
+
+vector <int> zigZagTraversal(Node* root)
+{
+	vector<int> v;
+	deque<Node *> d; int l=0;
+	if(root)
+	d.push_back(root);
+	while(!d.empty())
+	{
+	    Node *t;  int size = d.size();
+	    if(l%2==0)
+	    {
+	        while(size--)
+	        {
+	        t = d.back(); d.pop_back();
+	        v.push_back(t->data);
+	        if(t->left)
+	        d.push_front(t->left);
+	        if(t->right)
+	        d.push_front(t->right);
+	        }
+	    }else
+	    {
+	        while(size--)
+	        {
+	            t = d.front(); d.pop_front();
+	            v.push_back(t->data);
+	            if(t->right)
+	            d.push_back(t->right);
+	            if(t->left)
+	            d.push_back(t->left);
+	        }
+	    }
+	    l++;
+	}
+	return v;
+}

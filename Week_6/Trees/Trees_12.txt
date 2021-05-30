@@ -1,0 +1,41 @@
+Vertical Sum in a given Binary Tree - leetcode 987
+
+class Solution {
+public:
+    bool static compare(pair<int,int> a,pair<int,int> b)
+    {
+        if(a.second!=b.second)
+            return a.second < b.second;
+        else
+            return a.first<b.first;
+    }
+    void util(TreeNode *root,map<int,vector<pair<int,int>>>& m,int c,int r)
+    {
+        if(!root)
+            return;
+        m[c].push_back(make_pair(root->val,r));
+        util(root->left,m,c-1,r+1);
+        util(root->right,m,c+1,r+1);  
+    }
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> v;
+        vector<int> colV;
+        map<int,vector<pair<int,int>>> m;               // made a map to store vectors
+        util(root,m,0,0);
+        for(auto it : m)
+        {
+            sort(it.second.begin(),it.second.end(),compare);
+            for(auto itr : it.second)
+            {
+                colV.push_back(itr.first);
+            }
+            v.push_back(colV);
+            colV.clear();
+        }
+        
+        return v;
+    }
+};
+
+
+

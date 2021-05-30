@@ -1,36 +1,35 @@
 Given an array [a1b2c3d4] convert to [abcd1234]
 done on devc++
-
 #include <bits/stdc++.h>
 using namespace std;
 
+void swapThem(char *a,char*b)
+{
+	char t = *a;
+	*a=*b;
+	*b=t;
+}
 void rearrange(string s)
 {
 	int n=s.length();
-	int shifts=0;
-	int maxShifts=n-2;
-	for(int i=1;i<n && shifts<maxShifts;i+=2)
+	for(int i=1;i<n;i*=3)
 	{
 		int source=i;
 		char itemToMove=s[source];
 		do{
 			int target;
 			if(source%2==0)
-			target=n/2;
+			source=source/2;
 			else
-			target=n/2+source/2;
-			char temp=s[target];
-			s[target]=itemToMove;
-			itemToMove=temp;
-			shifts++;
-			source=target;
-		}while(source!=i && shifts<maxShifts);
+			source=n/2+source/2;
+			swapThem(&s[source],&itemToMove);
+		}while(source!=i);
 	}
 	cout<<s;
 }
 int main()
 {
-	string s="a1b2c3d4";
+	string s="a1b2";  // len is 4 which is of form 3^k+1, so only cycle leader algo works
 	rearrange(s);
 	return 0;
 }

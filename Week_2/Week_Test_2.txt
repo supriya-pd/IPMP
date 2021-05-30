@@ -1,0 +1,10 @@
+https://p.hck.re/12Uq  -- report link
+
+company tour problem was simply heaps-- finding k points closest to origin or hostel visit problem of hackerearth
+
+safe elements in  matrix - hackerearth- just like that problem where we had to make all corresponding rows and column 1 if any cell had 1-- 
+here simple brute force would have worked-- I just saw matrix and didn't give a thought and moved to the next problem which was definitely harder than this, but next problem 
+was not meant to be solved during the OT - it was set like that even the info wasn't clear -- so, don't do this
+-----------------------------------------------------------------------------------------------------------------------
+last prb - Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit--leetcode 1438
+

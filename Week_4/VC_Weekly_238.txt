@@ -1,0 +1,98 @@
+1838. Frequency of the Most Frequent Element
+1837. Sum of Digits in Base K
+1839. Longest Substring Of All Vowels in Order - not done
+1840. Maximum Building Height - stuck in it
+--------------------------------------------------------
+class Solution {
+public:
+    int sumBase(int n, int k) {
+        int sum=0;
+        while(n)
+        {
+            int r = n%k;
+            sum=sum+r;
+            n=n/k;
+        }
+        return sum;
+    }
+};
+--------------------------------------------------------
+sliding window
+
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k) {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        int l=0;
+        int r=0;  // sliding window ka r means that element is being considered
+        long long total = 0;
+        long long t;
+        int len=0;
+        while(r<n)
+        {
+            total=total+nums[r];
+            t=nums[r]*(r-l+1);
+            while(t>total+k && l<=r)// expand window, i.e increment r only when             //nums[r]*window.len<=total+k
+            {
+                total=total-nums[l];
+                l++;
+            }
+            len=max(len,(r-l+1));
+            r++;
+        }
+        return len;
+    }
+};
+--------------------------------------------------------
+Brute Force:
+
+class Solution {
+public:
+    int maxBuilding(int n, vector<vector<int>>& restrictions) {
+        vector<int> v(n,0);
+        unordered_map<int,int> m;
+        int size=restrictions.size();
+        for(int j=0;j<size;j++)
+        {
+            m[restrictions[j][0]]=restrictions[j][1];
+        }
+        for(int i=1;i<n;i++)
+        {
+            if(m.find(i+1)!=m.end())
+            {
+                v[i]=m[i+1];
+                if(v[i-1]+1<=v[i])
+                    v[i]=v[i-1]+1;
+                else if(v[i-1]<=v[i])
+                    v[i]=v[i-1];
+                else if(v[i-1]-1<=v[i])
+                    v[i]=v[i-1]-1;
+                else
+                {
+                    int j=i;
+                    while(v[j-1]-v[j]>1)   // this loop makes time complexity O(n^2), u could use space, but even that didn't work
+                    {
+                        v[j-1]=v[j]+1;
+                        j--;
+                    }
+                }
+            }
+            else
+               v[i]=v[i-1]+1;
+        }
+        int maxH=0;
+        for(int i=0;i<n;i++)
+        {
+            maxH=max(maxH,v[i]);
+        }
+        return maxH;
+    }
+};
+
+Optimised: The idea is to traverse the restrictions matrix given !!!  
+
+So here how it's done:
+
+
+

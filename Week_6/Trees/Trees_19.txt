@@ -1,0 +1,53 @@
+lowest common ancestor of two given nodes in BT - leetcode 236
+
+kim - a node is a descendant of itself
+
+when will root be lca if p and q - if p is in left sub tree and q is in right subtree or the node itself is p or q and it's subtree (any) contains the other one
+so, given that both p and q exist in tree - we have to build vector of path and return the first node where the vectors differ 
+
+better  - single tree traversal - O(n)
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root)
+            return NULL;
+        if(root==p || root==q)
+            return root;
+        TreeNode *l_lca = lowestCommonAncestor(root->left,p,q);
+        TreeNode *r_rca = lowestCommonAncestor(root->right,p,q);
+        
+        if(l_lca && r_rca)
+            return root;
+        
+        return (l_lca)?l_lca:r_rca;
+    }
+};
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+finding path - 
+
+bool findPath(Node *root, vector<int> &path, int k)
+{
+    // base case
+    if (root == NULL) return false;
+ 
+    // Store this node in path vector. The node will be removed if
+    // not in path from root to k
+    path.push_back(root->key);                                          --------------------------------1
+ 
+    // See if the k is same as root's key
+    if (root->key == k)                                                 ---------------------------------2
+        return true;
+ 
+    // Check if k is found in left or right sub-tree
+    if ( (root->left && findPath(root->left, path, k)) ||
+         (root->right && findPath(root->right, path, k)) )              -------------------------------------3
+        return true;
+ 
+    // If not present in subtree rooted with root, remove root from
+    // path[] and return false
+    path.pop_back();                                                          ------------------------------4
+    return false;
+}

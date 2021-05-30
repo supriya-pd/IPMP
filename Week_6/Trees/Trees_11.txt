@@ -1,0 +1,40 @@
+reverse level order traversal - leetcode 107
+
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>> ans;
+        
+        stack<int> s;
+        queue<TreeNode*> q;
+        
+        vector<int> v;
+        
+        if(root)
+            q.push(root);
+        while(!q.empty())
+        {
+            int size = q.size();
+            while(size--)
+            {
+                TreeNode *t = q.front(); q.pop();
+                s.push(t->val);
+                
+                if(t->right)   // order is imp
+                    q.push(t->right);
+                if(t->left)
+                    q.push(t->left);
+            }
+            while(!s.empty())
+            {
+                v.push_back(s.top());
+                s.pop();
+            }
+            if(v.size()>0)
+            ans.push_back(v);
+            v.clear();
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};

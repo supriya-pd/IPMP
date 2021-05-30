@@ -1,0 +1,26 @@
+left view of BT -gfg
+
+--one simple tareeka is level order but using recursion, we can keep track of levels using extra parameter - level, here we also have to keep track of maximum level so far
+so that once level exceeds maximum level, that would give us the first node of that level - and since we want left view we travel left subtree before right
+
+void util(vector<int> &v,Node *root,int level,int *maxLevel)
+{
+    if(!root)
+    return;
+    
+    if(level>*(maxLevel))
+    {
+        *maxLevel = level;
+        v.push_back(root->data);
+    }
+    util(v,root->left,level+1,maxLevel);
+    util(v,root->right,level+1,maxLevel);
+}
+vector<int> leftView(Node *root)
+{
+   vector<int> v;
+   int level = 0;
+   int maxLevel = -1;
+   util(v,root,level,&maxLevel);
+   return v;
+}

@@ -1,0 +1,141 @@
+1854 - Maximum Population Year
+1855 - Maximum distance between a a pair of values
+1856 - Maximum Subarray Min product
+1857 - 
+----------------------------------
+In brute force, u will have to calculate for each year in timeline, so O(n^2) and O(1) space
+The solution below uses O(n) and O(n) -- this lago is sometimes called line sweep algorithm
+
+class Solution {
+public:
+    int maximumPopulation(vector<vector<int>>& logs) {
+        unordered_map<int,int> m;
+        for(auto &l : logs)  // in first iteration, if that year a birth increment index by 1
+        {
+            m[l[0]]++;
+            m[l[1]]--; // for death decrement index by 1
+        }
+        int res=1950;
+        for(int i=1950;i<=2050;i++)  //2050 is not needed to iterate
+        {
+            m[i]=m[i]+m[i-1];     // prefix sum
+            res=(m[i]>m[res])?i:res;  // taking the maximum, also early year
+        }
+        return res;
+    }
+};
+Remove Duplicates from Sorted Array II
+Diet Plan Performance
+Count Good Meals
+--------------------------------------------------------------------
+
+O(nlog(n)) solution using binary search but TLE
+
+class Solution {
+public:
+    int bsFarthest(vector<int>& nums,int l,int r,int k)
+    {
+        if(l<=r)
+        {
+            int m = (l+r)/2;
+            if(nums[m]>=k && ((m==r) || (nums[m+1]<k)))
+                return m;
+            else if(nums[m]<k)
+               return bsFarthest(nums,l,r-1,k);
+            else
+               return bsFarthest(nums,l+1,r,k);               
+        }
+        return -1;
+    }
+   
+    int maxDistance(vector<int>& nums1, vector<int>& nums2) {
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        int n = min(n1,n2);
+        int m = 0;
+        for(int i=0;i<n;i++)
+        {
+            m = max(m,bsFarthest(nums2,i,n2-1,nums1[i])-i);
+        }
+        return m;
+    }
+};
+
+use double pointer approach - one more thing to think of when array is sorted
+
+class Solution {
+public:
+  
+   
+    int maxDistance(vector<int>& nums1, vector<int>& nums2) {
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        int j = n2-1;
+        int m = 0;
+        for(int i=n1-1;i>=0;i--)
+        {
+            while(j>=i && nums2[j]<nums1[i])
+                j--;
+            m=max(m,j-i);
+        }
+        return m;
+    }
+};
+
+Longest Substring Without Repeating Characters
+Minimum Window Substring
+Maximum Performance of a Team
+-------------------------------------------------------------------------------------
+
+typedef long long ll;
+class Solution {
+public:
+    ll getSumRange(vector<ll>& p,int l,int r)
+    {
+        if(l==-1)
+            return p[r-1];
+        else
+            return p[r-1]-p[l];
+    }
+    int maxSumMinProduct(vector<int>& nums) {
+        int n = nums.size();
+        stack<int> s;
+        vector<int> left(n,-1); // stores index of nearest smallest element to the left
+        for(int i=0;i<n;i++)
+        {
+            while(!s.empty() && nums[s.top()]>=nums[i])
+                s.pop();
+            if(!s.empty())
+                left[i]=s.top();
+            s.push(i);
+        }
+        while(!s.empty())
+            s.pop();
+        vector<int> right(n,n); // stores index of nearest smallest element to the right
+        for(int i=n-1;i>=0;i--)
+        {
+            while(!s.empty() && nums[s.top()]>=nums[i])
+                s.pop();
+            if(!s.empty())
+                right[i]=s.top();
+            s.push(i);
+        }
+        vector<ll> prefixSum(n,0);
+        prefixSum[0]=nums[0];
+        for(int i=1;i<n;i++)
+        {
+            prefixSum[i]=nums[i]+prefixSum[i-1];
+        }
+        ll ans = 0;
+        for(int i=0;i<n;i++)
+        {
+            ll t = (ll)nums[i]*getSumRange(prefixSum,left[i],right[i]); // nums[i] is the minimum in the range (left(i),right(i))
+            ans = max(ans,t);
+        }
+        return (int)(ans%(int)(1e9+7));
+    }
+};
+
+Remove Boxes
+Diagonal Traverse II
+Maximum Score from Performing Multiplication Operations

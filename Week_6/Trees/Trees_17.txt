@@ -1,0 +1,56 @@
+Boundary traversal of BT - gfg
+
+-do this in three parts - 1. left boundary 2. leaves 3. right boundary - but it's not as simple as that - make sure that u not print same node twice - for that u
+ should not print leaf node while doing boundary traversal
+
+
+class Solution {
+public:
+void leftB(vector<int>& v,Node *root)  // top down
+{
+    if(!root || (!root->left && !root->right))
+    return;
+    v.push_back(root->data);
+    if(root->left)
+    leftB(v,root->left);
+    else
+    leftB(v,root->right);    // I had to add this because it can happen that right child is there but left isn't then we have to follow right one 
+}
+void leaf_nodes_from_left_to_right(vector<int> &v,Node* root) // doesn't matter pre post or in
+{
+    if(!root)
+    return;
+    if(!root->left && !root->right)
+    {
+        v.push_back(root->data);
+        return ;
+    }
+    leaf_nodes_from_left_to_right(v,root->left);
+    leaf_nodes_from_left_to_right(v,root->right);
+}
+void rightB(vector<int>& v,Node *root) // bottom up
+{
+    if(!root || (!root->left && !root->right))
+    return;
+    if(root->right)
+    rightB(v,root->right);
+    else
+    rightB(v,root->left);
+    v.push_back(root->data);
+}
+    vector <int> printBoundary(Node *root)
+    {
+        vector<int> v;
+        if(!root)
+        return v;
+        v.push_back(root->data);                       // this is very imp that u print root here only and pass its left right child to functions - bec consider a skewed tree-this test case fails
+        leftB(v,root->left);
+        leaf_nodes_from_left_to_right(v,root->left);
+        leaf_nodes_from_left_to_right(v,root->right);
+        rightB(v,root->right);
+        return v;
+    }
+};
+
+
+for a right skewed tree - 7->2->5  ----> 7 5 2 -- in this case nothing should be printed for left boundary

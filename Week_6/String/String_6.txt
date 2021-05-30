@@ -1,0 +1,83 @@
+Move all even-index positioned chars to end of string maintaining even-odd order
+
+a1b2c3d4 - we want to convert this to abcd1234 - so even index should be in first half and odd index should move to second half - we use cycle leader iteration algorithm 
+but this algo works for strings of length 3^k+1 (2,4,10,28..) where k can be 0 - so if string length is 3^k+1 , we can directly use this algorithm, else we divide it into substrings 
+which are of length 3^k+1, and then join them, if possible for example if n = 26, 10+10+4+2, but n = 22 (len will be even), 10+10+2.
+
+1.break into substrings
+2.apply cycle leader iteration algo to all
+3.join them 
+
+cycle leader iteration algorithm - first and last ka position change nahi hoga, if index is even, target = i/2,else target = n/2 +i/2
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void swapThem(char *a,char*b)
+{
+	char t = *a;
+	*a=*b;
+	*b=t;
+}
+void cycleLeader(string& s,int shift,int n)
+{
+	for(int i=1;i<n;i*=3)
+	{
+		int source=i;
+		char itemToMove=s[source+shift];
+		do{
+			int target;
+			if(source%2==0)
+			source=source/2;
+			else
+			source=n/2+source/2;
+			swapThem(&s[source+shift],&itemToMove);
+		}while(source!=i);
+	}
+}
+void reverse(string& s,int low,int high)
+{
+	while(low<high)
+	{
+		swapThem(&s[low],&s[high]);
+		low++;
+		high--;
+	}
+}
+void rearrange(string& s)
+{
+	int k;
+	int l;  // l is current length of sub string
+	int shift = 0;
+	int remLen = s.length();
+	while(remLen)
+	{
+		k=0;
+		while(pow(3,k)+1<=remLen)
+		k++;
+		k--;
+		l = pow(3,k)+1;
+		remLen = remLen - l;
+		cycleLeader(s,shift,l);
+		reverse(s,shift/2,shift-1);
+		reverse(s,shift,shift+l/2-1);
+		reverse(s,shift/2,shift+l/2-1);
+		shift = shift + l;
+	}
+}
+int main()
+{
+	string s="a1b2c3d4e5f6g7";    // 10+4 
+	rearrange(s);
+	cout<<s;
+	return 0;
+}
+
+
+
+
+
+
+
+
+

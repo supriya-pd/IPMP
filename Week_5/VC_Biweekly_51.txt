@@ -1,0 +1,109 @@
+1844 - Replace all digits with characters
+1845 -- Seat Reservation Manager --just had to put all available seats in pq or use ordered set
+1846 -- Maximum Element After Rearranging and Decreasing -- it was easy after seeing the constraint that arr[i] <=1....  : just sorting
+Closest room -- 1847
+
+-----------------------------------------------------
+
+class Solution {
+public:
+    string replaceDigits(string s) {
+        int n=s.length();
+        for(int i=1;i<n;i=i+2)
+        {
+            s[i]=s[i-1]+s[i]-'0';
+        }
+        return s;
+    }
+};
+--------------------------------------------------------
+
+class SeatManager {
+public:
+    int n;
+    priority_queue<int,vector<int>,greater<int>> p;
+    SeatManager(int n) {
+        this->n=n;
+        for(int i=0;i<n;i++)
+            p.push(i+1);
+    }
+    
+    int reserve() {
+      int s=p.top();
+        p.pop();
+        return s;
+    }
+    
+    void unreserve(int seatNumber) {
+    p.push(seatNumber);
+    }
+};
+-----------------------------------------------------------
+class Solution {
+public:
+    int maximumElementAfterDecrementingAndRearranging(vector<int>& arr) {
+        sort(arr.begin(),arr.end());
+        int n=arr.size();
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i]>=i+1)
+                arr[i]=i+1;
+        }
+        for(int i=1;i<n;i++)
+        {
+            if(arr[i]-arr[i-1]>1)
+            {
+                arr[i]=arr[i-1]+1;
+            }
+        }
+        return arr[n-1];
+    }
+};
+--------------------------------------------------------------
+
+class Solution {
+public:
+    bool static sortcol(const vector<int>& a,const vector<int>& b )
+    {
+        return a[1]>b[1];
+    }
+    vector<int> closestRoom(vector<vector<int>>& rooms, vector<vector<int>>& queries) {
+        int n=rooms.size();
+        int k=queries.size();
+        
+        for(int i=0;i<k;i++)
+            queries[i].push_back(i);
+        
+        vector<int> v(k,-1);
+        
+        sort(rooms.begin(),rooms.end(),sortcol);
+        sort(queries.begin(),queries.end(),sortcol);
+        
+        set<int> st;  // set will give id stored in it in sorted way
+        int ptr=0;
+        for(int i=0;i<k;i++)
+        {
+            int minSize = queries[i][1];
+            int pId = queries[i][0];
+            int qN = queries[i][2];
+            
+            while(ptr<n && rooms[ptr][1]>=minSize)
+                st.insert(rooms[ptr++][0]);
+            if(st.size())
+            {
+                auto it = st.lower_bound(pId);  // remember the room IDs are unique
+                if(it==st.begin())
+                    v[qN]=*it;
+                else if(it==st.end())
+                    v[qN]=*(--it);
+                else
+                {
+                     auto t = it;
+                    --it;
+                     v[qN]=abs((*t)-pId)<abs((*it)-pId)?*t:*it; // comparison imp because if u are searching for 3 and u have ..2 4....then lower bound returns iterator to 4
+                }
+            } 
+        }
+        return v;
+    }
+};

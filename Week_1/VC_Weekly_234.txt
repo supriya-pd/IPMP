@@ -1,0 +1,47 @@
+Weekly Contest 234
+
+1.1805-->Number of Different Integers in String --easy,3
+2.1806-->Minimum number of operations to reinitialize a permutation --medium --5
+3.1807-->Evaluate the bracket pairs of a string--medium--5
+4.1808-->Maximize number of nice divisors--hard--6
+
+Score-->3/19
+-----------------------------------------------------
+At first I converted string to integer, that's why jab bahut bada number aaya, test case failed, so next I just kept it as a string and just removed leading zeroes,
+it worked-->but it took O(n), using regex, it can be done in constant space :
+
+const regex pattern = ("^0+(?!$)")   //  ^0+ means match one or more zero at the beginning, and (?!$) is a negative lookahead expression where $ means end of string
+
+str = regex_replace(str,pattern,"")  // it will replace matched mattern with empty string provided as third parameter
+
+------------------------------------------------------
+We can do brute force for this -- usually in such problems, a cycle exists and it is safe to assume the number of operations will not be greater than 1
+--also n is even, just trace for n = 10 and i just observed that for n/2 calculate operations, because that only requires longest number of 
+operations to get back in it's original place--
+
+class Solution {
+public:
+    int reinitializePermutation(int n) {
+        
+        int c=0;
+        int s = n/2;
+        int save = n/2;
+        do
+        {
+            if(s%2==0)
+            {
+                s = s/2;
+            }else
+            {
+                s = n/2 + (s-1)/2;
+            }
+            c++;
+        }while(s!=save);
+        return c;
+    }
+};
+
+------------------------------------------------------
+used a hash map - still getting tle
+------------------------------------------------------
+

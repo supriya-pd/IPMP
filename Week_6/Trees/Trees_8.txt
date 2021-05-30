@@ -1,0 +1,35 @@
+level order traversal - gfg
+
+- use queue or this approach
+
+class Solution
+{
+    public:
+
+    int height(Node *node)
+    {
+        if(!node)
+        return 0;
+        return max(height(node->left),height(node->right))+1;
+    }
+    void currentLevel(Node *node,int i, vector<int>& v)
+    {
+        if(!node)
+        return;
+        if(i==1)
+        v.push_back(node->data);
+        else
+        {
+            currentLevel(node->left,i-1,v);
+            currentLevel(node->right,i-1,v);
+        }
+    }
+    vector<int> levelOrder(Node* node)
+    {
+      vector<int> v;
+      int h = height(node);
+      for(int i=1;i<=h;i++)
+      currentLevel(node,i,v);
+      return v;
+    }
+};

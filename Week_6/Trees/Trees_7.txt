@@ -1,0 +1,25 @@
+
+Populate Inorder Successor for all nodes  - gfg
+
+-- idea is to use reverse inorder traversal, so u will get to visit successor first, just keep track
+ also, don't use static variable because then in different test cases also it won't get reinitialized
+
+
+void pt(struct node *p,struct node **next)
+{
+     if(p)
+ {
+     pt(p->right,next);
+     
+     p->next = *next;
+     *next = p;
+     
+     pt(p->left,next);
+ }
+}
+void populateNext(struct node* p)
+{
+    struct node *next=NULL;
+pt(p,&next);
+ 
+}

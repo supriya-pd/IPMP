@@ -1,0 +1,32 @@
+Check if all leaves are at same level - gfg 
+
+class Solution{
+  public:
+ 
+    bool util(Node *root,int level,int *leaflevel)
+    {
+        if(!root)
+        return true;
+        if(!root->right && !root->left)
+        {
+            if(*(leaflevel)==0)
+            {
+                *(leaflevel)=level;
+                return true;
+            }else
+            {
+                if(*(leaflevel)==level)
+                return true;
+                else
+                return false;
+            }
+        }
+        return util(root->left,level+1,leaflevel) && util(root->right,level+1,leaflevel);
+    }
+        
+    bool check(Node *root)
+    {
+        int level = 0,leaflevel=0;
+        return util(root,level,&leaflevel);
+    }
+};

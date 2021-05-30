@@ -1,0 +1,33 @@
+Difference of sum of nodes in odd and even levels - gfg
+
+class Solution{
+  public:
+   
+    int getLevelDiff(Node *root)
+    {
+       queue<Node *> q;
+       if(root)
+       q.push(root);
+       int Osum = 0;
+       int Esum = 0;
+       int flag = true;
+       while(!q.empty())
+       {
+           int s = q.size();
+           while(s--)
+           {
+               Node *t = q.front(); q.pop();
+               if(flag)
+               Osum = Osum + t->data;
+               else
+               Esum = Esum + t->data;
+               if(t->left)
+               q.push(t->left);
+               if(t->right)
+               q.push(t->right);
+           }
+           flag = !flag;
+       }
+       return Osum-Esum;
+    }
+};

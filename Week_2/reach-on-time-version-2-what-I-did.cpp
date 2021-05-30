@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include<bits/stdc++.h>  // there's something wrong , I didn't realise it was AP, i made an array, and then did binary search-- it didn't work though, I got wrong answer for huge numbers as input
 using namespace std;
 
 double arr(int i)

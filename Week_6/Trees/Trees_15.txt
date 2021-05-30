@@ -1,0 +1,92 @@
+delete all nodes of a tree / delete tree -gfg
+
+do postorder traversal to delete nodes one by one
+
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+	Node *left;
+	Node *right;
+	int data;
+	Node(int data)
+	{
+		this->data = data;
+		left = right = NULL;
+	}
+};
+
+Node *buildTree(string s)
+{
+	if(s[0]=='N')
+	return NULL;
+	
+	// create vector of strings from input splitting by space
+	
+	istringstream ss(s);
+	string w;
+	vector<string> v;
+	while(ss>>w)
+	{
+		v.push_back(w);
+	}
+	
+	Node *root = new Node(stoi(v[0]));
+	queue<Node*> q;
+	q.push(root);
+	int i=1;
+	while(!q.empty() && i<v.size())
+	{
+		Node *t = q.front(); q.pop();
+		if(v[i]!="N")   // left child creation
+		{
+			t->left=new Node(stoi(v[i]));
+			q.push(t->left);
+		}
+		i++;
+		if(i>=v.size())
+		break;
+		if(v[i]!="N") // right child
+		{
+			t->right=new Node(stoi(v[i]));
+			q.push(t->right);
+		}
+		i++;
+	}
+	return root;
+}
+void levelorder(Node *root)
+{
+    queue<Node*> q;
+    if(root)
+    q.push(root);
+    while(!q.empty())
+    {
+        Node *t = q.front(); q.pop();
+        cout<<t->data<<" ";
+        if(t->left)
+        q.push(t->left);
+        if(t->right)
+        q.push(t->right);
+    }
+    cout<<endl;
+}
+void deleteTree(Node *root){  // post order traversal
+	if(!root)
+	return ;
+	deleteTree(root->left);
+	deleteTree(root->right);
+	cout<<"Deleting node "<<root->data<<endl;
+	delete root;
+}
+int main()
+{
+	string s;
+	cout<<"Enter level order traversal of tree"<<endl;
+	getline(cin,s);
+	Node *root = buildTree(s);
+	levelorder(root);
+	deleteTree(root);
+	return 0;
+}
+

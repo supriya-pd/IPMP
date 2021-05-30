@@ -1,8 +1,158 @@
 1812--determine color of chessboard square -- 3
 1813--sentence similarity 3-------------------4
 1814--count nice pairs in array--------------5
-1815--maximum number of groups getting fresh donuts---6
+1815--maximum number of groups getting fresh donuts---6  ---this is dp prb
 
 score 3+ 4*65/84=3.sth
 gave up before contest ended bec i have no clue of 1815 and 1813
 
+1814 -- used multiset - still got tle- don't know why set and map both if unordered use hash as internal representation -- so it should be constant time
+
+class Solution {
+public:
+    int rev(int n)
+    {
+        int res=0;
+        int count=0;
+        int x=n;
+        while(x)
+        {
+           x=x/10;
+            count++;
+        }
+        count--;
+        while(n)
+        {
+            res=res+(n%10)*(int)pow(10,count);
+            count--;
+            n=n/10;
+        }
+        return res;
+    }
+    int countNicePairs(vector<int>& nums) {
+        unordered_multiset<int> m;
+        int n=nums.size();
+        int count=0;
+        for(int i=0;i<n;i++)
+        {
+            m.insert(nums[i]-rev(nums[i]));
+        }
+        for(int i=0;i<n;i++)
+        {
+            int s=nums[i]-rev(nums[i]);
+            count=count+m.count(s)-1;
+        }
+        return (count/2);
+    }
+};
+
+------------------------use hash map
+
+class Solution {
+public:
+    int rev(int n)
+    {
+        int res=0;
+        int count=0;
+        int x=n;
+        while(x)
+        {
+           x=x/10;
+            count++;
+        }
+        count--;
+        while(n)
+        {
+            res=res+(n%10)*(int)pow(10,count);
+            count--;
+            n=n/10;
+        }
+        return res;
+    }
+    int countNicePairs(vector<int>& nums) {
+        unordered_map<int,int> m;
+        int n=nums.size();
+        int count=0;
+        for(int i=0;i<n;i++)
+        {
+            m[nums[i]-rev(nums[i])]++;
+        }
+        for(auto it = m.begin();it!=m.end();it++)
+        {
+               long long int f = it->second;
+               count = (count + (f*(f-1)/2))%1000000007;   // pick nC2 - number of ways to pick pair
+        }        
+        return (count);
+    }
+};
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1813 -
+
+class Solution {
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        
+        vector<string> w1;
+        vector<string> w2;
+        
+        istringstream ss1(sentence1); // or use space wla logic to seperate words but in that case remember ki last word ke baad space nahi hai toh loop ke bahar aane ke baad last word ko push krna hoga 
+        istringstream ss2(sentence2);
+        string w;
+        while(ss1>>w)
+        {
+            w1.push_back(w);
+        }
+        while(ss2>>w)
+        {
+            w2.push_back(w);
+        }
+        // after this find longest common prefix and longest common suffix
+        
+        int n1 =w1.size();
+        int n2 = w2.size();
+        
+        vector<string> lcp;
+        vector<string> lcs;
+        
+        // finding lcp
+        int i=0;
+    
+        while(i<n1 && i<n2)
+        {
+            if(w1[i]==w2[i])
+            {
+                lcp.push_back(w1[i]);
+                i++;
+            }else
+            {
+                break;
+            }
+        }
+        
+        // find lcs
+        
+     i = n1-1;
+      int  j=n2-1;
+        
+        while(i>=0 && j>=0)
+        {
+            if(w1[i]==w2[j])
+            {
+                lcs.push_back(w1[i]);
+                i--;
+                j--;
+            }else
+            {
+                break;
+            }
+        }
+        // condition
+        
+        int s = lcs.size(); // len of suffix vector
+        int p = lcp.size();
+        if((s+p >= n1) || (s+p >= n2)) // is sum is greater than or equal to any one string length
+            return true;
+        else
+            return false;
+    }
+};

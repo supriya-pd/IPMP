@@ -1,0 +1,25 @@
+first unique character in string leetcode 387
+
+class Solution {
+public:
+    int firstUniqChar(string s) {  //  size of hash map is 256 bec 256 ascii chracters
+        pair<int,int> m[256];
+        
+        int l = s.length();
+        
+        for(int i=0;i<l;i++)
+        {
+            (m[s[i]].first)++;
+            m[s[i]].second = i;
+        }
+        int ans = INT_MAX;
+        for(int i=0;i<256;i++)
+        {
+            if(m[i].first==1)
+                ans = min(ans,m[i].second);
+        }
+        return (ans==INT_MAX)?-1:ans;
+    }
+};
+
+// very imp thing here is that hash map is travelled instead of traversing string for second time

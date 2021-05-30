@@ -1,0 +1,30 @@
+print all permutations of given string - backtracking example
+
+if string is sth like aab then some permutations will be repeated using following algo
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void swap(char *a,char *b)
+{
+	char t = *a;
+	*a = *b;
+	*b = t;
+}
+void per(string s,int l,int r)
+{
+	if(l==r)
+	cout<<s<<" ";
+	for(int i=l;i<=r;i++)
+	{
+		swap(&s[l],&s[i]);
+		per(s,l+1,r);
+		swap(&s[l],&s[i]);
+	}
+}
+int main()
+{
+	string s="abcd";
+	int n=s.length();
+	per(s,0,n-1);
+}

@@ -1,0 +1,87 @@
+Connect nodes at same level using constant extra space 
+
+leetcode 116 - one way to do is just use reverse level order traversal, i.e every level go from right to left
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        
+        queue<Node*> q;
+        if(root)
+        q.push(root);
+        while(!q.empty())
+        {
+            int s = q.size();
+            Node *next = NULL;
+            while(s--)
+            {
+                Node *t = q.front(); q.pop();
+                t->next = next;
+                next = t;
+                if(t->right)
+                    q.push(t->right);
+                if(t->left)
+                    q.push(t->left);
+            }
+        }
+        return root;
+    }
+};
+
+
+in this problem it was also given - it was for perfect binary trees and all nodes at same level - it could also be solved like this - connect the children and then
+after connecting children, need to connect cousins - node -> right ->next = node -> next -> left - this would give us O(1) space
+
+modifying the the second idea for any tree - the recursive solution that we get is morris traversal and it is o(n^2) time complexity , so leetcode 117 - do using
+level order
+
+morris method
+
+class Solution {
+public:
+    Node *getNextRight(Node *p)
+    {
+        Node *t = p->next;
+        while(t)
+        {
+            if(t->left)
+                return t->left;
+            if(t->right)
+                return t->right;
+            t= t->next;
+        }
+        return NULL;
+    }
+    Node* connect(Node* p) {
+        if(!p)
+            return p;
+        
+        if(p->next!=NULL)
+            connect(p->next); 
+        
+        if(p->left)
+        {
+            if(p->right)
+            {
+                p->left->next = p->right;
+                p->right->next = getNextRight(p);
+            }else
+                p->left->next=getNextRight(p);
+            connect(p->left);
+        }else if(p->right)
+        {
+            p->right->next = getNextRight(p);
+            connect(p->right);
+        }else
+            connect(getNextRight(p));
+        
+        return p;
+    }
+};
+
+
+
+
+
+
+
