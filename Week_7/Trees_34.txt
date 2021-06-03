@@ -1,0 +1,17 @@
+invert binary tree or mirror tree - leetcode 226
+
+u just have to swap the left and right pointers
+
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if(!root)
+            return root;
+        TreeNode *t = root->right;
+        root->right=root->left;
+        root->left=t;
+        invertTree(root->left);
+        invertTree(root->right);
+        return root;
+    }
+};

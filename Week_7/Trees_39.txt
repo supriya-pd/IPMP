@@ -1,0 +1,27 @@
+kth smallest in bst -leetcode 230
+
+just inorder - if u use iterative then u can stop when u got the kth else u have to do full inorder in recursion
+
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        stack<TreeNode*> s;
+        TreeNode *curr=root;
+        while(curr || !s.empty())
+        {
+            while(curr)
+            {
+                s.push(curr);
+                curr=curr->left;
+            }
+            curr=s.top(); s.pop();
+            if(k==1)
+            {
+                return curr->val;
+            }
+            curr=curr->right;
+            k--;
+        }
+        return -1;
+    }
+};

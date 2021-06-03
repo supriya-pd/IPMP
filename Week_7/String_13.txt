@@ -1,0 +1,20 @@
+remove those chracters from string 1 present in string 2 - gfg
+class Solution {
+  public:
+    string removeChars(string s1, string s2) {
+        unordered_map<char,int> m; // can be bool also instead of int because we don't need count
+        int n=s2.length();
+        for(int i=0;i<n;i++)
+        {
+            m[s2[i]]++;
+        }
+        n=s1.length();
+        string str="";
+        for(int i=0;i<n;i++)
+        {
+            if(m.find(s1[i])==m.end())
+            str=str+s1[i];
+        }
+        return str;
+    }
+};

@@ -1,0 +1,116 @@
+CHECK BST
+--------
+bool util(Node *root,int min,int max)
+{
+    if(!root)
+        return true;
+    if(root->data < min || root->data > max)
+        return false;
+    return util(root->left,min,root->data-1) && util(root->right,root->data+1,max);
+}
+	bool checkBST(Node* root) {
+       return util(root,INT_MIN,INT_MAX);
+		
+	}
+
+-->include climits for INT_MAX and INT_MIN
+
+bool util(Node *root,Node *l,Node *r)
+{
+    if(!root)
+        return true;
+    if(l && root->data<=l->data)
+        return false;
+    if(r && root->data>=r->data)
+        return false;
+    return util(root->left,l,root) && util(root->right,root,r);
+}
+	bool checkBST(Node* root) {
+       return util(root,NULL,NULL);
+		
+	}
+-------------------------------------------------------------------------------------------------------------
+TOP VIEW
+--------
+
+  void util(Node * root,int c,int l,map<int,pair<int,int>>& m)
+{
+    if(!root)
+        return;
+    if(m.find(c)==m.end())
+        m[c]=make_pair(root->data,l);
+    else if(m[c].second>l)
+        m[c]=make_pair(root->data,l);
+    util(root->left,c-1,l+1,m);
+    util(root->right,c+1,l+1,m);
+}
+    void topView(Node * root) {
+
+        map<int,pair<int,int>> m;
+        int c = 0;
+        int l=0;
+        util(root,c,l,m);
+        for(auto it : m)
+        {
+            cout<<it.second.first<<" ";
+        }
+    }
+-----------------------------------------------------------------------------------------------------------------
+two characters - O(n^3) brute force
+
+int max(int a,int b)
+{
+    if(a>=b)
+        return a;
+    else
+        return b;
+}
+bool valid(string s)
+{
+    int n=s.length();
+    for(int i=0;i<n-1;i++)
+    {
+        if(s[i]==s[i+1])
+            return false;
+        if(i<=n-3)
+        if(s[i]!=s[i+2])
+            return false;
+        
+    }
+    return true;
+}
+int alternate(string s) {
+    int n=s.length();
+    int max_len=0;
+    set<char> m;
+    for(int i=0;i<n;i++)
+    {
+        if(m.find(s[i])==m.end())
+        {
+            m.insert(s[i]);
+        }
+    }
+    for(auto it=m.begin();it!=m.end();it++)
+    {
+        auto tt = it;
+        for(auto jt=++tt;jt!=m.end();jt++)
+        {
+            string str = "";
+           
+            for(int i=0;i<n;i++)
+            {
+                if(s[i]==*it || s[i]==*jt)
+                str=str+s[i];
+            }
+            cout<<str<<endl;
+            if(valid(str))
+            {
+                max_len=max(max_len,str.length());
+              
+            }
+        }
+    }
+    return max_len;
+}
+-----------------
+https://www.youtube.com/watch?v=wG_sFhuYcnA        ------ dp solution

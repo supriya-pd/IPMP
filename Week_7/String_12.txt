@@ -1,0 +1,32 @@
+modified strcmp function - where case doesn't matter
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int Mystrcmp(string s1,string s2)
+{
+	int n1=s1.length();
+	int n2=s2.length();
+	int i;
+	for(i=0;i<n1 && i<n2;i++)
+	{
+		if(s1[i]==s2[i])
+		continue;
+		else if((s1[i] ^ 32)==s2[i])  // setting the 6th bit
+		continue;
+		else
+		break;
+	}
+	if(s1[i]==s2[i])
+	return 0;
+	if((s1[i]|32)<(s2[i]|32))  // comparing after setting the 6th bit
+	return -1;
+	return 1;
+}
+int main()
+{
+	string s1,s2;
+	cin>>s1>>s2;
+	cout<<Mystrcmp(s1,s2)<<endl;
+	return 0;
+}

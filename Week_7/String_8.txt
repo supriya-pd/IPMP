@@ -1,0 +1,34 @@
+run length encoding - gfg
+
+char *encode(char *src)
+{     
+    int n = strlen(src);
+    int i;
+    int c=1;
+   
+    char *str= (char*)malloc(sizeof(char)*(2*n+1));
+    string s="";
+
+    for(i=0;i<n-1;i++)
+    {
+        if(src[i]==src[i+1])
+        c++;
+        else
+        {
+            s=s+src[i]+to_string(c);
+            c=1;
+        }
+    }
+    s=s+src[i]+to_string(c);
+    n=s.length();
+    int j;
+    for(j=0;j<n;j++)
+    {
+        str[j]=s[j];
+    }
+    str[j]='\0';
+    return str;
+}   
+
+
+

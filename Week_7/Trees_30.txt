@@ -1,0 +1,37 @@
+check if given BST is binary tree or not - leetcode 98
+
+[-2147483648,-2147483648] --> problem these cases won't pass if u use INT_MAX anol, so avoid it
+
+class Solution {
+public:
+    bool util(TreeNode *root,int min,int max)
+    {
+        if(!root)
+            return true;
+        if(root->val<min || root->val>max)
+            return false;
+        return util(root->left,min,(long long)root->val-1) && util(root->right,(long long)root->val+1,max);  //if I don't do -1 or +1 then, i need to use equality while returning false which fails this test case - root with value as INT_MAX
+    }
+    bool isValidBST(TreeNode* root) {
+        cout<<INT_MAX;
+        return util(root,INT_MIN,INT_MAX);
+    }
+};
+-----------------------------------------------
+class Solution {
+public:
+    bool util(TreeNode *root,TreeNode *l,TreeNode *r)
+    {
+        if(!root)
+            return true;
+        if(l && l->val<=root->val)
+            return false;
+        if(r && r->val>=root->val)
+            return false;
+        return util(root->left,root,r) && util(root->right,l,root);
+    }
+    bool isValidBST(TreeNode* root) {
+        return util(root,NULL,NULL);
+    }
+};
+-------------------------------------------------------

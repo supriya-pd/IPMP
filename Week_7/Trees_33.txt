@@ -1,0 +1,22 @@
+check if BT is foldable - gfg
+
+mirror bt or isomorphic problem similar type
+
+bool util(Node *left,Node *right)
+{
+    if(!left && right)
+    return false;
+    if(left && !right)
+    return false;
+    if(!left && !right)
+    return true;
+    return util(left->left,right->right) && util(left->right,right->left);
+}
+bool IsFoldable(Node* root)
+{
+    if(!root)
+    return true;
+    if(!root->left && !root->right)
+    return true;
+    return util(root->left,root->right);
+}

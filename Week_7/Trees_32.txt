@@ -1,0 +1,29 @@
+check if bt is complete-leetcode 958
+
+we could do level order traversal and count nodes for each level - 2^l except last or after we found a node that is not full, we should not find another full node(both left and right child present)
+
+using recursion
+
+class Solution {
+public:
+    int count(TreeNode *root)
+    {
+        if(!root)
+            return 0;
+        return 1+count(root->left)+count(root->right);
+    }
+    bool util(TreeNode *root,int i,int c)
+    {
+        if(!root)
+            return true;
+        if(i>=c)
+            return false;
+        return util(root->left,2*i+1,c) && util(root->right,2*i+2,c);
+    }
+    bool isCompleteTree(TreeNode* root) {
+        // array index wala idea used
+        int index=0;
+        int c = count(root);
+        return util(root,index,c);
+    }
+};

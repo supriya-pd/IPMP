@@ -1,0 +1,26 @@
+convert bt to a bt that holds children sum property - gfg
+
+trick is that calculating sum in same recursion so that O(n) instead of O(n^2) - leaf nodes get changed to 0
+
+
+class Solution {
+  public:
+  
+    void util(Node *root,int *s)
+    {
+        int ls=0;
+        int rs=0;
+        if(!root)
+        return;
+        util(root->left,&ls);
+        util(root->right,&rs);
+       *s=(*s)+root->data+ls+rs;
+        root->data=ls+rs;
+    }
+    void toSumTree(Node *node)
+    {
+ 
+       int s=0;
+       util(node,&s);
+    }
+};

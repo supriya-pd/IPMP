@@ -1,0 +1,62 @@
+inorder successor of a given node-gfg
+
+if right is not null, then pakka in right subtree it exists and if it is null then strat from root and do sth like this
+
+ if (n->right != NULL)
+        return minValue(n->right);
+
+    struct node* succ = NULL;
+    while (root != NULL) 
+    {
+        if (n->data < root->data) 
+        {
+            succ = root;
+            root = root->left;
+        }
+        else if (n->data > root->data)
+            root = root->right;
+        else
+            break;
+    }
+---------------
+also if parent pointer is given, we need travel backwards until u find the parent whose whose data is greter than node's data
+
+class Solution{
+  public:
+  Node *minValue(Node *root)
+  {
+      if(!root->left)
+      return root;
+      return minValue(root->left);
+  }
+  void search(Node *root,Node *x,Node **s)
+  {
+      if(!root)
+      return;
+     if(x->data<root->data)
+     {
+         *s=root;
+         search(root->left,x,s);
+     }
+     else if(x->data>root->data)
+     {
+         search(root->right,x,s);
+     }
+     else
+     return;
+  }
+    Node * inOrderSuccessor(Node *root, Node *x)
+    {
+ 
+        if(x->right)
+        return minValue(x->right);                      
+        else
+        {
+            Node *s=NULL;
+            search(root,x,&s);
+            return s;
+        }
+
+    }
+};
+

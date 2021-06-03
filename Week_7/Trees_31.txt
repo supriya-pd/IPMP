@@ -1,0 +1,26 @@
+check if binary tree is balanced - leetcode 110
+
+class Solution {
+public:
+    bool util(TreeNode *root,int *h)
+    {
+        int rh=0; int lh=0;
+        if(!root)
+        {
+            *h=0;
+            return true;
+        }
+        bool l = util(root->left,&lh);
+        bool r = util(root->right,&rh);
+        *h=max(lh,rh)+1;
+        if(l && r && abs(rh-lh)<=1)
+            return true;
+        else
+            return false;
+    }
+    bool isBalanced(TreeNode* root) {
+        // we don't want to call a sperate height function, but get height in same recursion = O(n^2) in case of full BT
+        int h=0;
+        return util(root,&h);
+    }
+};
