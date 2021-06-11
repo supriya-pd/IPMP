@@ -1,0 +1,28 @@
+sorted LL to balanced BST -leetcode 109
+
+class Solution {
+public:
+    int count(ListNode *head)
+    {
+        if(!head)
+            return 0;
+        return 1+count(head->next);
+    }
+    TreeNode* util(ListNode **head_ref,int n)
+    {
+        if(n<=0)
+            return NULL;
+        TreeNode *left=util(head_ref,n/2);
+        TreeNode *root=new TreeNode((*head_ref)->val);
+        root->left=left;
+        
+        *head_ref=(*head_ref)->next;
+        TreeNode *right=util(head_ref,n-n/2-1);
+        root->right=right;
+        return root;
+    }
+    TreeNode* sortedListToBST(ListNode* head) {
+        int n=count(head);
+        return util(&head,n);
+    }
+};

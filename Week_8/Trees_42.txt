@@ -1,0 +1,24 @@
+print BST keys in given range - leetcode 938
+
+class Solution {
+public:
+    void util(TreeNode *root,int low,int high,int *sum)
+    {
+        if(!root)
+            return;
+        if(root->val>low)
+        util(root->left,low,high,sum);
+        if(root->val>=low && root->val<=high)
+            *sum=(*sum)+root->val;
+        if(root->val<high)
+        util(root->right,low,high,sum);
+            
+    }
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        int sum=0;
+        util(root,low,high,&sum);
+        return sum;
+    }
+};
+
+if u use morris traversal o(1) space - threaded Binary Trees - used in problems where inorder traversal is required-order statistics as Kth smallest in BST

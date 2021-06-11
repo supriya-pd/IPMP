@@ -1,0 +1,27 @@
+check if there exists  a path with given sum - leetcode 112
+
+class Solution {
+public:
+    void util(TreeNode *root,int sum,int targetSum,bool *f)
+    {
+        sum=sum+root->val;
+        if(!root->left && !root->right)
+        {
+            if(sum==targetSum)
+                *f=true;
+            return;
+        }
+        if(root->left)
+            util(root->left,sum,targetSum,f);
+        if(root->right)
+            util(root->right,sum,targetSum,f);
+    }
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(!root)
+            return false;
+        int sum=0;
+        bool f=false;
+        util(root,sum,targetSum,&f);
+        return f;
+    }
+};

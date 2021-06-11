@@ -1,0 +1,66 @@
+bt to dll - gfg    ---> inorder traversal 
+
+class Solution
+{
+    void util(Node *root,Node **head,Node **tail)
+    {
+        if(!root)
+        return;
+        util(root->left,head,tail);
+        if(*head==NULL)
+        {
+            *head=root;
+        }
+        root->left=*tail;
+        if(*tail!=NULL)
+        {
+            (*tail)->right=root;
+        }
+        *tail=root;
+        util(root->right,head,tail);
+    }
+    public: 
+    Node * bToDLL(Node *root)
+    {
+        Node *head=NULL;
+        Node *tail=NULL;
+        util(root,&head,&tail);
+        return head;
+    }
+};
+----------------------------or--------------
+4 steps -  first convert left subtree then find inorder predecessor(rightmost node is left subtree) and set it
+
+class Solution
+{
+    Node* util(Node *root)
+    {
+        if(root->left)
+        {
+        Node *left=util(root->left);
+        for(;left->right!=NULL;left=left->right);
+        left->right=root;
+        root->left=left;
+        }
+        if(root->right)
+        {
+        Node *right = util(root->right);
+        for(;right->left!=NULL;right=right->left);
+        right->left=root;
+        root->right=right;
+        }
+
+        return root;
+    }
+    public: 
+    Node * bToDLL(Node *root)
+    {
+        if(!root)
+        return root;
+        root=util(root);
+        while(root->left)
+        root=root->left;
+        return root;
+    }
+};
+

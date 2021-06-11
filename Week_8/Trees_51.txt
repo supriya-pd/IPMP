@@ -1,0 +1,6 @@
+ The tree must be constructed in-place (No new node should be allocated for tree conversion)
+
+sorted DLL to BST-gfg
+
+we use prev pointer as left and next pointer as right - bec we are reusing the same nodes make sure child is processed before parent, so bottom up way, build it
+

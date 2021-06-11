@@ -1,0 +1,54 @@
+regular expression matching - dp --- leetcode 10
+
+regex matching  * and .
+
+a*b --> ab,b,aaab - 0 or more occurences of character preceding it
+a.b --> matches any single character - alb, abb, aab, acb
+
+a*b.*y -> by,bly,ablmy
+
+dp[0][0]=true
+first row i.e. i=0 can be true if empty string but pattern is a*b*
+
+leaving first row, this is logic
+
+if(str[i]==pattern[j] or pattern[j]==.) T[i-1][j-1] : doesn't matter even if we remove them
+else if(pattern[j]==*) -> T[i][j-2] || T[i-1][j] if (str[i]==pattern[j-1] || pattern[j-1]=.)
+
+
+
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int sl = s.size();
+        int pl = p.size();
+        
+        vector<vector<bool>> dp(sl+1,vector<bool>(pl+1,false));
+        
+        dp[0][0]=true;
+        // run a loop for first row i.e i=0, deasl with a* or a*b* or a*b*c*
+        int i=0;
+        int j;
+        for(j=1;j<=pl;j++)
+        {
+            if(p[j-1]=='*')                               // to get index i have to do -1, note this
+                dp[0][j]=dp[0][j-2];    
+        }
+        
+        for(i=1;i<=sl;i++)
+        {
+            for(j=1;j<=pl;j++)
+            {
+                if(s[i-1]==p[j-1] || p[j-1]=='.')
+                    dp[i][j]=dp[i-1][j-1];        // diagonally upar, because even if we remove them, not matter
+                else if(p[j-1]=='*')
+                {
+                    dp[i][j]=dp[i][j-2];  // 0 occurrences
+                    if(s[i-1]==p[j-2] || p[j-2]=='.')
+                        dp[i][j]=dp[i][j] | dp[i-1][j];
+                }
+            }
+        }
+        return dp[sl][pl];
+    }
+};

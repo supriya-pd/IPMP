@@ -1,0 +1,25 @@
+print ancestors of given node - recursive - gfg
+
+class Solution{
+  public:
+    bool util(Node *root,int t,vector<int>&v,vector<int> d)
+    {
+        if(!root)
+        return false;
+        if(root->data==t)
+        {
+            v=d;
+            return true;
+        }
+        d.push_back(root->data);
+        return util(root->left,t,v,d) || util(root->right,t,v,d);
+        
+    }
+    vector<int> Ancestors(struct Node *root, int target)
+    {
+        vector<int> v; vector<int> d;
+        util(root,target,v,d);
+        reverse(v.begin(),v.end());
+        return v;
+    }
+};

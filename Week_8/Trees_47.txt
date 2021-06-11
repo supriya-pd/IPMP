@@ -1,0 +1,26 @@
+max root to leaf path sum in BT - gfg
+
+void util(Node *root,int sum,int *m)
+{
+    sum=sum+root->data;
+    if(!root->left && !root->right)
+    {
+        if(sum>*m)
+        *m=sum;
+        return;
+    }
+    if(root->left)
+    util(root->left,sum,m);
+    if(root->right)
+    util(root->right,sum,m);
+}
+
+int maxPathSum(Node* root)
+{
+    if(!root)
+    return 0;
+    int sum=0;
+    int maxSum=INT_MIN;
+    util(root,sum,&maxSum);
+    return maxSum;
+}

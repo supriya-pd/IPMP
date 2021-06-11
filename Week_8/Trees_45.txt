@@ -1,0 +1,27 @@
+all paths from root to leaf - leetcode 257
+
+class Solution {
+public:
+    void util(TreeNode *root,vector<string>& v,string s)
+    {
+        s=s+to_string(root->val)+"->";
+        if(!root->left && !root->right)
+        {
+            s.pop_back();s.pop_back();
+            v.push_back(s);
+            return;
+        }
+        if(root->left)
+        util(root->left,v,s);
+        if(root->right)
+        util(root->right,v,s);
+    }
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> v;
+        if(!root)
+            return v;
+        string s="";
+        util(root,v,s);
+        return v;
+    }
+};
