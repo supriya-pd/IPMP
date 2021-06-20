@@ -1,0 +1,42 @@
+largest rectangle in hostogram - leetcode 84
+
+idea - for every bar , consider it is samllest and calculate area - for calculating area - need the index of the bar smaller than the current bar in left and in right
+that will give the width - u can maintain two arrays left and right and then iterate over them to calculate width by (left - right -1 )*height or what is done below is
+
+iterating and pushing elements if i find that bar is smaller than top element then it can be rigth index for popped bar - and we can get left index by geting the top index after popping bar
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n=heights.size();
+        int m=0;                      // taking each bar as smallest and calculating for each - store in hash map but here we need only maximum
+        stack<int> s;
+        for(int i=0;i<n;i++)
+        {
+            while(!s.empty() && heights[i]<heights[s.top()]) // pop only if u feel this element is right index for popped element 
+            {
+                int t = s.top(); s.pop();
+                int left;
+                if(!s.empty())
+                    left=s.top();
+                else
+                    left=-1;
+                m=max(m,heights[t]*(i-left-1));
+            }
+            s.push(i);
+            // obs - at any time stack has elements in increasing order
+        }
+        int right = n; // before this right was i
+        while(!s.empty())
+        {
+            int t = s.top(); s.pop();
+            int left;
+            if(!s.empty())
+                left=s.top();
+            else
+                left=-1;
+               m=max(m,heights[t]*(right-left-1));
+        }
+        return m;
+    }
+};

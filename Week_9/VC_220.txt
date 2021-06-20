@@ -1,0 +1,43 @@
+1696 - jump game 6
+
+i did greedilty - and the test case failed - this is actually max in sliding window of size k problem
+class Solution {
+public:
+    int maxResult(vector<int>& nums, int k) {     //  [0,-1,-2,-3,1]   k=2 -> this test case failed with this solution
+        int n=nums.size();
+        int s=0;
+        int i=0;
+        while(i!=n-1)
+        {
+            s=s+nums[i];
+            int j=i+1;
+            int l=min(i+k,n-1);
+            int m=INT_MIN;
+            int mi=-1;
+            while(j<=l)
+            {
+                if(nums[j]>=0)
+                {
+                    mi=j;
+                    break;
+                }
+                if(nums[j]>m)
+                {
+                    m=nums[j];
+                    mi=j;
+                }
+                j++;
+            }
+            if(l==n-1)
+            {
+                if(nums[mi]<0)
+                    mi=n-1;
+            }
+            i=mi;
+        }
+        s=s+nums[n-1];
+        return s;
+    }
+
+Solution -- deque
+

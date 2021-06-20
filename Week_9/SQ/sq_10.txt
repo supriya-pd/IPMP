@@ -1,0 +1,37 @@
+next right greater element - stack problem leetcode 496
+
+there is brute force - O(N^2) 
+idea is that iterate over array and push the element - but before pushing all the elemnts that are already in stack and are smaller than current element have this elemnt as the next greater
+hashmap is used just to store the results - u could reuse the same array and if u want output in same order as inputs - https://www.geeksforgeeks.org/next-greater-element-in-same-order-as-input/
+
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        
+        int n1 = nums1.size();
+        int n2=nums2.size();
+        unordered_map<int,int> m;
+        stack<int> s;
+        for(int i=0;i<n2;i++)
+        {
+            while(!s.empty() && s.top()<nums2[i])
+            {
+                int t = s.top();
+                s.pop();
+                m[t]=nums2[i];  // current elemnt is next greater elemnt for popped element
+            }
+            s.push(nums2[i]);
+        }
+        while(!s.empty())
+        {
+            m[s.top()]=-1;
+            s.pop();
+        }
+        vector<int> v;
+        for(int i=0;i<n1;i++)
+        {
+            v.push_back(m[nums1[i]]);
+        }
+        return v;
+    }
+};

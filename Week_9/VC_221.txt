@@ -1,0 +1,97 @@
+1704 - 1704. Determine if String Halves Are Alike 
+
+-----------------------------------------
+1705. Maximum Number of Eaten Apples -bst - ordered_map stl
+
+class Solution {
+public:
+    int eatenApples(vector<int>& apples, vector<int>& days) {
+        int n=apples.size();
+        map<int,int> m; // ordered map - > day on which it gets expired and number - index of days from 0
+        int x=0;
+        int i=0;
+            for(i=0;i<n;i++)
+            {
+                while(m.size()!=0 && m.begin()->first==i)  // removing all bad ones
+                    m.erase(i);
+                if(apples[i]!=0)
+                    m[i+days[i]]=apples[i];  // adding
+                if(m.size()!=0)
+                {
+                    m.begin()->second = m.begin()->second-1;   // eating
+                    x++;
+                    if(m.begin()->second==0)
+                        m.erase(m.begin()->first);
+                }
+            }
+        while(m.size()!=0)
+        {
+            while(m.size()!=0 && m.begin()->first==i)  // removing all bad ones
+                    m.erase(i);
+            if(m.size()!=0)
+                {
+                    m.begin()->second = m.begin()->second-1;   // eating
+                    x++;
+                    if(m.begin()->second==0)
+                        m.erase(m.begin()->first);
+                }
+            i++;
+        }
+        return x;
+    }
+};
+
+----------------------------------------
+1706. Where Will the Ball Fall -  
+
+class Solution {
+public:
+    int func(vector<vector<int>>& grid,int state,int row,int col,int m,int n)
+    {
+        if(state==0 && grid[row][col]==1)
+        {
+            if(col==n-1)   // stuck against wall
+                return -1;
+            col++;
+            if(grid[row][col]==-1)  // in v shape
+                return -1;
+            return func(grid,1,row,col,m,n);
+        }else if(state==0 && grid[row][col]==-1)
+        {
+            if(col==0)
+                return -1;
+            col--;
+            if(grid[row][col]==1)
+                return -1;
+            return func(grid,1,row,col,m,n);
+        }else if(state==1 && grid[row][col]==1)
+        {
+            if(row==m-1)
+                return col;
+            return func(grid,0,row+1,col,m,n);
+        }else
+        {
+            if(row==m-1)
+                return col;
+            return func(grid,0,row+1,col,m,n);
+        }
+    }
+    vector<int> findBall(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size();
+        
+        vector<int> v(n,-1);
+        for(int i=0;i<n;i++)
+        {
+            v[i]=func(grid,0,0,i,m,n);               // 0 means a state and 1 means b state
+        }
+        return v;
+    }
+};
+
+
+
+
+
+so, it's kind of dfs - bec u have to figure out when to u have dead end and when u reached end
+-------------------------------------------------------------------------------------------------

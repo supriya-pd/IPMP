@@ -1,0 +1,48 @@
+implement lru cache - list for double ended queue and hash map is used - front of queue most recently used element is present
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class LRUCache{
+	int size;
+	list<int> dq; // double ended queue
+	unordered_map<int,list<int>::iterator> m;   // key is the input page number and value is address of that list node which has it
+	int miss;  
+	public:
+		LRUCache(int n)
+		{
+			this->size=n;
+			miss=0;
+		}
+		void insert_calculate_miss(int x);
+		int getMiss()
+		{
+			return miss;
+		}
+};
+void LRUCache::insert_calculate_miss(int x)
+{
+	if(m.find(x)==m.end())   // not present in cache, miss
+	{
+		miss++;
+		if(dq.size()==size)
+		{
+			int t =dq.back();
+			dq.pop_back();
+			m.erase(t);
+		}
+	}else
+	{
+		dq.erase(m[x]);  // erase it bec will be added in front
+	}
+	dq.push_front(x);
+	m[x]=dq.begin();
+}
+int main()
+{
+	LRUCache c(3);  // number of frames is 3
+	int v[]={1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5};
+	for(int i=0;i<12;i++)
+	c.insert_calculate_miss(v[i]);
+	cout<<c.getMiss();
+}

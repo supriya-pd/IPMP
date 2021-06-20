@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>   // convert infix to postfix and evaluate postfix both in one single algo
+using namespace std;
+
+int prec(char c)
+{
+	if(c == '^') 
+    return 3; 
+    else if(c == '*' || c == '/') 
+    return 2; 
+    else if(c == '+' || c == '-') 
+    return 1; 
+    else
+    return -1; 
+}
+int applyOp(int a,int b,char c)
+{
+	int x=0;
+	switch(c)
+	{
+		case '+': x=a+b; break;
+		case '-':x=a-b; break;
+		case '*':x=a*b; break;
+		case '/':x=a/b; break;
+		case '^':x=(int)pow(a,b); break;
+	}
+	return x;
+}
+int evaluate(string str)
+{
+	stack<int> values;
+	stack<char> op; // operator stack
+	int n= str.length();
+	int i;
+	for(i=0;i<n;i++)
+	{
+		if(str[i]==' ')
+		continue;
+		else if(str[i]=='(')
+		op.push('(');
+		else if(isdigit(str[i]))
+		{
+			int val=0;
+			while(i<n && isdigit(str[i]))
+			{
+				val = (val*10)+(str[i]-'0');
+				i++;
+			}
+			values.push(val);
+			i--;
+		}
+		else if(str[i]==')')
+		{
+			while(!op.empty() && op.top()!='(')
+			{
+				char o = op.top(); op.pop();
+				int val1 = values.top(); values.pop();
+				int val2 = values.top(); values.pop();
+				values.push(applyOp(val2,val1,o));
+			}
+			if(!op.empty())
+			op.pop();
+		}else  // operator
+		{
+			while(!op.empty() && prec(str[i])<=prec(op.top()))
+			{
+				char o = op.top(); op.pop();
+				int val1 = values.top(); values.pop();
+				int val2 = values.top(); values.pop();
+				values.push(applyOp(val2,val1,o));
+			}
+			op.push(str[i]);
+		}
+	}
+	while(!op.empty())
+	{
+			char o = op.top(); op.pop();
+			int val1 = values.top(); values.pop();
+			int val2 = values.top(); values.pop();
+			values.push(applyOp(val2,val1,o));
+	}
+	cout<<values.top();
+}
+int main()
+{
+	string str="2+3-4*5+(6^2)*8/9/10*4+5";
+	evaluate(str);
+}

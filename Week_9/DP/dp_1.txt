@@ -1,0 +1,64 @@
+// example of memoization - make a table to store the result of subproblems instead of calculating them again bec they are overlapping
+// memoization is top down approach while tabulation is bottom up approach - in tree of overlapping subproblems
+
+#include <bits/stdc++.h>
+using namespace std;
+#define N 100
+vector<int> lookup(N,-1); // 0 to 99 --> index 0 would mean 0th fibonacci number in this case
+
+
+
+int fib(int n)
+{
+	if(lookup[n]==-1)
+	{
+		lookup[n]=fib(n-1)+fib(n-2);
+	}
+	return lookup[n];
+}
+int main()
+{
+int n=10;
+lookup[0]=1;
+lookup[1]=1;
+
+cout<<fib(n)<<endl;
+	for(int i=0;i<=n;i++)
+	{
+		cout<<lookup[i]<<" ";
+	}
+}
+
+
+or the fib function can be modified like this
+
+ int fib(int n)
+{
+	if (lookup[n] == NIL)
+	{
+		if (n <= 1)
+			lookup[n] = n;
+		else
+			lookup[n] = fib(n - 1) + fib(n - 2);
+}
+
+return lookup[n];
+
+
+For tabulation method - 
+
+int fib(int n)
+{
+  int f[n+1];
+  int i;
+  f[0] = 0;   f[1] = 1; 
+  for (i = 2; i <= n; i++)
+      f[i] = f[i-1] + f[i-2];
+  
+  return f[n];
+}
+
+
+Both Tabulated and Memoized store the solutions of subproblems.
+ In Memoized version, table is filled on demand while in Tabulated version, starting from the first entry, all entries are filled one by one. 
+Unlike the Tabulated version, all entries of the lookup table are not necessarily filled in Memoized version

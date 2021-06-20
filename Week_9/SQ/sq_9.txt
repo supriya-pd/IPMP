@@ -1,0 +1,24 @@
+stock span problem - leetcode 901
+
+idea is imp
+
+class StockSpanner {
+public:
+    stack<pair<int,int>> s; // price and index
+    int i=0;
+    StockSpanner() {
+    }
+    
+    int next(int price) {
+        int c=0;
+        while(!s.empty() && s.top().first<=price)
+        {
+            s.pop();
+            c++;
+        }
+        int r = s.empty()?(i+1):(i-s.top().second);
+        s.push(make_pair(price,i));
+        i++;
+        return r;
+    }
+};

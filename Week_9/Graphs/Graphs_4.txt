@@ -1,0 +1,122 @@
+detect cycle in directed graph - gfg - O(V+ E)
+
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+
+ // 1 means white, 0 means gray and -1 means black set - 
+ // white means not visited not explored, black means explored and  gray menas currently being explored
+
+class Solution
+{
+    public:
+    bool util(int v,int *colors,vector<int> adj[])
+    {
+        // first move from white to gray set, so it means dfs for this vertex has started or it is in stack
+        colors[v]=0;
+        for(auto x : adj[v])
+        {
+            if(colors[x]==-1)
+            continue;
+            if(colors[x]==0)
+            return true;
+            if(util(x,colors,adj))// datrt dfs from here if it's white node
+            return true;
+        }
+        // after exploring each adjacent vertex
+        colors[v]=-1;
+        return false;
+    }
+	bool isCyclic(int V, vector<int> adj[]) 
+	{
+	    int colors[V];
+	  for(int i=0;i<V;i++)
+	     colors[i]=1;          // all are in white set        
+	  for(int i=0;i<V;i++)
+	  {
+	      if(colors[i]==1)   // taking vertices from white set
+	      if(util(i,colors,adj))
+	      return true;
+	  }
+	  return false;
+	}
+};
+
+// { Driver Code Starts.
+
+
+int main()
+{
+    
+    int t;
+    cin >> t;
+    while(t--)
+    {
+    	int V, E;
+    	cin >> V >> E;
+
+    	vector<int> adj[V];
+
+    	for(int i = 0; i < E; i++)
+    	{
+    		int u, v;
+    		cin >> u >> v;
+    		adj[u].push_back(v);
+    	}
+
+    	Solution obj;
+    	cout << obj.isCyclic(V, adj) << "\n";
+    }
+
+    return 0;
+}
+
+  // } Driver Code Ends
+
+
+----------------------same thing could be written making an additional array recStack to keep track of nodes which are in stack or which are being processed currently and visited array
+
+but it gives tle
+
+class Solution
+{
+    public:
+    bool util(int v,bool *recStack,bool *visited,vector<int> adj[])
+    {
+       // move to gray set
+       if(visited[v]==false)   // only if are coming from white set
+       {
+           visited[v]=true;
+           recStack[v]=true;
+           
+        for(auto x : adj[v])
+        {
+            if(recStack[x])
+            return true;
+            else if(!visited[x] && util(x,recStack,visited,adj))
+            return true;
+        }
+       }
+        recStack[v]=false; // visited but not in stack that means explored
+        return false;
+    }
+	bool isCyclic(int V, vector<int> adj[]) 
+	{
+	  bool recStack[V];
+	  bool visited[V];
+	  for(int i=0;i<V;i++)  // this loop is equivalent to initializing all in white set
+	  {
+	      recStack[i]=false;
+	      visited[i]=false;  
+	  }
+	  for(int i=0;i<V;i++)
+	  {
+	      if(util(i,recStack,recStack,adj))
+	      return true;
+	  }
+	  return false;
+	}
+};
+

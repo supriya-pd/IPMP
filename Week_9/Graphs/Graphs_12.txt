@@ -1,0 +1,94 @@
+this implementation is known as union by rank and path compression
+
+prev one was linear and this is O(logV) - where v is number of elements in set
+
+The idea is to always attach smaller depth tree under the root of the deeper tree. This technique is called union by rank
+The second optimization to naive method is Path Compression. The idea is to flatten the tree when find() is called.
+ When find() is called for an element x, root of the tree is returned. The find() operation traverses up from x to find root. 
+The idea of path compression is to make the found root as parent of x so that we don’t have to traverse all intermediate nodes again.
+ If x is root of a subtree, then path (to root) from all nodes under x also compresses.
+
+
+#include <bits/stdc++.h>
+using namespace std;
+class Edge{
+		public:
+	int src;
+	int dst;	
+};
+class subset{
+	public:
+	int parent;
+	int rank;
+};
+class Graph{
+
+	int V,E;
+	
+		public:
+		Edge *edges;
+		Graph(int V,int E)
+		{
+			this->V=V;
+			this->E=E;
+			edges=new Edge[E];
+		}
+		bool detectCycle();
+};
+int find(subset *subsets,int e)
+{
+	if(subsets[e].parent!=e)
+	{
+		subsets[e].parent=find(subsets,subsets[e].parent);
+	}
+	return subsets[e].parent;
+}
+void doUnion(subset *subsets,int xroot,int yroot)
+{
+	if(subsets[xroot].rank<subsets[yroot].rank)
+	subsets[xroot].parent=yroot;
+	else if(subsets[xroot].rank>subsets[yroot].rank)
+	subsets[yroot].parent=xroot;
+	else
+	{
+		//make anyone as parent
+		subsets[yroot].parent=xroot;
+		subsets[xroot].rank++;  // rank of parent increase by one
+	}
+}
+bool Graph::detectCycle()
+{
+	subset *subsets=new subset[V*sizeof(subset)];
+	for(int i=0;i<V;i++)
+	{
+		subsets[i].rank=0;
+		subsets[i].parent=i;  // initially every node is root of itself
+	}
+	
+	for(int e = 0;e<E;e++)
+	{
+		int x=find(subsets,edges[e].src);
+		int y=find(subsets,edges[e].dst);
+		if(x==y)
+		return true;
+		doUnion(subsets,x,y);
+	}
+	return false;
+}
+int main()
+{
+	Graph g(5,5);
+	g.edges[0].src=0;
+	g.edges[0].dst=1;
+	g.edges[1].src=1;
+	g.edges[1].dst=2;
+	g.edges[2].src=2;
+	g.edges[2].dst=3;
+	g.edges[3].src=3;
+	g.edges[3].dst=4;
+	g.edges[4].src=0;
+	g.edges[4].dst=3;
+	if(g.detectCycle())
+	cout<<"Cycle Present";
+}
+

@@ -1,0 +1,68 @@
+Adjacency Matrix - O(V^2) space even for sparse graphs - and O(1) time for queries like whether there is edge from vertex u to v and removing ? an edge in O(1) time, 
+removing a vertex takes O(V^2) time - ?
+
+weighted graph by like this
+
+Adjacency List - O(V+E) space, - if complete graph, then O(V^2) - adding vertex O(1) time, and O(V) time for queries like whether 
+there is edge from vertex u to v, removing ??
+
+weighted graph  - vertex as pairs
+
+#include <bits/stdc++.h>   // undirected unweighted graph
+using namespace std;
+
+void addEdge(vector<int> adj[],int u,int v)  // array of vectors is passed by address
+{
+	adj[u].push_back(v);
+	adj[v].push_back(u);
+}
+void printGraph(vector<int> adj[],int V)
+{
+	for(int v=0;v<V;v++)
+	{
+		cout<<"V"<<v;
+		for(auto x : adj[v])
+		cout<<" --> "<<x;
+		cout<<endl;
+	}
+}
+int main()
+{
+	int V=5;
+	vector<int> adj[V];
+	addEdge(adj,0,2);
+	addEdge(adj,0,3);
+	addEdge(adj,2,4);
+	printGraph(adj,V);
+}
+
+
+#include <bits/stdc++.h>    // undirected weighted graph
+using namespace std;
+
+void addEdge(vector<pair<int,int>> adj[],int u,int v,int w)  // array of vectors is passed by address
+{
+	adj[u].push_back(make_pair(v,w));
+	adj[v].push_back(make_pair(v,w));
+}
+void printGraph(vector<pair<int,int>> adj[],int V)
+{
+	for(int v=0;v<V;v++)
+	{
+		cout<<"V"<<v;
+		for(auto x : adj[v])                    // or for(auto it = adj[v].begin();it!=adj[v].end();it++) it->first and it->second
+		cout<<" --> "<<x.first<<" having weight "<<x.second;
+		cout<<endl;
+	}
+}
+int main()
+{
+	int V=5;
+	vector<pair<int,int>> adj[V];
+	addEdge(adj,0,2,2);
+	addEdge(adj,0,3,4);
+	addEdge(adj,2,4,6);
+	printGraph(adj,V);
+}
+
+

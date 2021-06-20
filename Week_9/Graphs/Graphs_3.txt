@@ -1,0 +1,58 @@
+bfs - maintain visited array because cycles - so indefinite loop -  for undirected graphs visited has to be there 
+below program assumes that all nodes are connected
+
+o(v+e) - for every node all edges are explored
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Graph{
+	int V;
+	list<int> *adj;
+	public:
+		Graph(int V)
+		{
+			this->V=V;
+			adj=new list<int>[V];
+		}
+		void addEdge(int u,int v)
+		{
+			adj[u].push_back(v);
+		}
+		void BFS(int s);
+};
+void Graph::BFS(int s)
+{
+	bool *visited=new bool[V];
+	for(int i=0;i<V;i++)
+	visited[i]=false;
+	
+	queue<int> q;
+	q.push(s);
+	visited[s]=true;
+	
+	while(!q.empty())
+	{
+		int v = q.front(); q.pop();
+		cout<<v<<" ";
+		for(auto x : adj[v])          // or list<int> :: iterator i   for(i = adj[v].begin() ....that would give pointer so *i would be vertex
+		{
+			if(!visited[x])
+			{
+				visited[x]=true;
+				q.push(x);
+			}
+		}
+	}
+}
+int main()
+{
+    Graph g(4);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(2, 3);
+    g.addEdge(3, 3);
+    g.BFS(2);
+}

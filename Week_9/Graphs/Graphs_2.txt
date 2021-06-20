@@ -1,0 +1,161 @@
+dfs - O(V+E) - visites every vertex and checks each edge of that node - so O(V+E)
+recursion and backtracking - explores as far as possible for each branch before backtracking 
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Graph{
+	int V;
+	list<int> *adj;
+	bool *visited;
+	public:
+		Graph(int V)
+		{
+			this->V=V;
+			adj=new list<int>[V];
+			visited=new bool[V];
+		}
+		void addEdge(int u,int v)
+		{
+			adj[u].push_back(v);
+		}
+		void dfs(int s);
+};
+void Graph::dfs(int s)                                  // doesn't handle disconnected graphs, see below
+{
+	visited[s]=true;
+	cout<<s<<" ";
+	for(auto x:adj[s])
+	{
+		if(!visited[x])
+		{
+			dfs(x);
+		}
+	}
+}
+int main()
+{
+	Graph g(5);
+	g.addEdge(0,1);
+	g.addEdge(1,2);
+	g.addEdge(2,3);
+	g.addEdge(3,4);
+	g.addEdge(4,0);
+	g.dfs(2);
+}
+
+for disconnected graphs
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Graph{
+	int V;
+	list<int> *adj;
+	bool *visited;
+	public:
+		Graph(int V)
+		{
+			this->V=V;
+			adj=new list<int>[V];
+			visited=new bool[V];
+		}
+		void addEdge(int u,int v)
+		{
+			adj[u].push_back(v);
+		}
+		void dfsUtil(int v);
+		void DFS(int s);
+};
+void Graph::DFS(int s)
+{
+	int i=s;
+	do{
+		if(!visited[i])
+		dfsUtil(i);
+		i=(i+1)%V;
+	}while(i!=s);
+}
+void Graph::dfsUtil(int v)
+{
+	visited[v]=true;
+	cout<<v<<" ";
+	for(auto x:adj[v])
+	{
+		if(!visited[x])
+		{
+			dfsUtil(x);
+		}
+	}
+}
+int main()
+{
+	Graph g(5);
+	g.addEdge(1,2);
+	g.addEdge(2,3);
+	g.addEdge(3,4);
+	g.DFS(2);
+}
+similarly handle isconnected graphs in bfs as well
+
+iterative dfs - when i pop i explore a vertex, same as bfs - outpot may differ bec in rec u go with first ot visited vertex and here they go with last not visited
+
+#include<bits/stdc++.h>  // iterative dfs
+using namespace std;
+
+class Graph{
+	int V;
+	list<int> *adj;
+	bool *visited;
+	public:
+		Graph(int V)
+		{
+			this->V=V;
+			adj=new list<int>[V];
+			visited=new bool[V];
+		}
+		void addEdge(int u,int v)
+		{
+			adj[u].push_back(v);
+		}
+		void dfsUtil(int v);
+		void DFS(int s);
+};
+void Graph::DFS(int s)
+{
+	int i=s;
+	do{
+		if(!visited[i])
+		dfsUtil(i);
+		i=(i+1)%V;
+	}while(i!=s);
+}
+void Graph::dfsUtil(int v)
+{
+	stack<int> s;
+	s.push(v);
+	for(auto x:adj[v]);
+	while(!s.empty())
+	{
+		v=s.top();
+		s.pop();
+		if(!visited[v])
+		{
+			visited[v]=true;
+			cout<<v<<" ";
+		}
+		for(auto x : adj[v])
+		{
+			if(!visited[v])
+			s.push(x);
+		}
+	}
+}
+int main()
+{
+	Graph g(5);
+	g.addEdge(1,2);
+	g.addEdge(2,3);
+	g.addEdge(3,4);
+	g.DFS(2);
+}

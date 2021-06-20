@@ -1,0 +1,75 @@
+union and find - detect cycle in undirected graph - union find algo doesn't work if self loops are there
+this is simple implementation or naive implementation of union and find
+
+ds used - disjoint set  - it will have three operations - makeSet which initializes one element in each set - each number is basically rep of that set
+find - returns rep of the set in which the element is present - elements in same set will have one common rep
+union(x,y) - x and y will have now one common rep
+
+disjoint set is here implemented using array called parent
+
+#include <bits/stdc++.h>    TC - O(E) or O(V) i.e linear
+using namespace std;
+class Edge{
+		public:
+	int src;
+	int dst;	
+
+
+
+
+};
+class Graph{
+
+	int V,E;
+	
+		public:
+		Edge *edges;
+		Graph(int V,int E)
+		{
+			this->V=V;
+			this->E=E;
+			edges=new Edge[E];
+		}
+		bool detectCycle();
+};
+int find(int *parent,int e)
+{
+	if(parent[e]==-1)
+	return e;
+	return find(parent,parent[e]);
+}
+void doUnion(int *parent,int x,int y)
+{
+	parent[x]=y;
+}
+bool Graph::detectCycle()
+{
+	int *parent=new int[V*sizeof(int)];
+	memset(parent,-1,sizeof(int)*V);
+	
+	for(int e = 0;e<E;e++)
+	{
+		int x=find(parent,edges[e].src);
+		int y=find(parent,edges[e].dst);
+		if(x==y)
+		return true;
+		doUnion(parent,x,y);
+	}
+	return false;
+}
+int main()
+{
+	Graph g(5,5);
+	g.edges[0].src=0;
+	g.edges[0].dst=1;
+	g.edges[1].src=1;
+	g.edges[1].dst=2;
+	g.edges[2].src=2;
+	g.edges[2].dst=3;
+	g.edges[3].src=3;
+	g.edges[3].dst=4;
+	g.edges[4].src=0;
+	g.edges[4].dst=3;
+	if(g.detectCycle())
+	cout<<"Cycle Present";
+}

@@ -1,0 +1,119 @@
+stacks with middle operations like findmiddle and delete middle in O(1) time - for implementing stack we use dll bec array deletetion is O(n) and LL we don't have prev pointers
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class DLLNode{
+	public:
+	int data;
+	DLLNode *prev;
+	DLLNode *next;
+	public:
+		DLLNode(int data)
+		{
+			this->data=data;
+			prev=NULL;
+			next=NULL;
+		}
+};
+class MiddleStack{
+	DLLNode *startPointer;
+	DLLNode *lastPointer;
+	DLLNode *middlePointer;
+	int size;
+	public:
+		MiddleStack()
+		{
+			startPointer=NULL;
+			lastPointer=NULL;
+			middlePointer=NULL;
+			size=0;
+		}
+		void push(int x);
+		void pop();
+		int getMiddle();   // middle returns the later one in ase of even
+		void deleteMiddle();
+};
+void MiddleStack::push(int x)
+{
+	DLLNode *n = new DLLNode(x);
+	size++;
+	if(startPointer==NULL)
+	{
+		startPointer = lastPointer = middlePointer = n;
+	}else
+	{
+		n->prev=lastPointer;
+		lastPointer->next = n;
+		lastPointer=n;
+		if(size%2==0)
+		middlePointer=middlePointer->next;
+	}
+}
+void MiddleStack::pop(){
+	if(size==0)
+	{
+		cout<<"Underflow";
+		exit(1);
+	}
+	if(lastPointer->prev==NULL)
+	{
+		delete lastPointer;
+		lastPointer=startPointer=middlePointer=NULL;
+		size--;
+	}else
+	{
+		lastPointer->prev->next=NULL;
+		DLLNode *temp = lastPointer;
+		lastPointer=lastPointer->prev;
+		delete temp;
+		size--;
+		if(size==1)
+		middlePointer=lastPointer;
+		else if(size%2==1)
+		middlePointer=middlePointer->prev;
+	}
+}
+int MiddleStack::getMiddle()
+{
+	if(size==0)
+	{
+		cout<<"Underflow";
+		exit(1);
+	}
+	return middlePointer->data;
+}
+void MiddleStack::deleteMiddle()
+{
+	if(size==0)
+	{
+		cout<<"Underflow";
+		exit(1);
+	}else if(size==1)
+	{
+		delete middlePointer;
+		startPointer = lastPointer = middlePointer = NULL;
+		size--;
+	}else
+	{
+		DLLNode *prev = middlePointer->prev;
+		DLLNode *next = middlePointer->next;
+		middlePointer->prev->next = middlePointer->next;
+		middlePointer->next->prev=middlePointer->prev;
+		size--;
+		DLLNode *temp = middlePointer;
+		if(size%2==1)
+		middlePointer = prev;
+		else
+		middlePointer = next;
+		delete temp;
+	}
+}
+int main()
+{
+	MiddleStack s;
+	s.push(2);
+	s.push(3);
+	s.push(4);
+	cout<<s.getMiddle();
+}

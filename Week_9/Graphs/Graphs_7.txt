@@ -1,0 +1,97 @@
+bellman ford - single source shortest path problem
+
+dijkstra doesn't work for graph with negative weights but bellman does
+it is dp
+initialize a dist array and parent array
+take edges array - or traverse edges in a specific order each time
+iterate V-1 times
+in each iteration - relax the edges
+
+if dis reduces afetr v-1 iteration as well, that means there is negative weight cycle
+TC - O(V.E) 
+
+doesn't work if graph has negative weight cycle - simply because we can take that cycle as many times as we want and it always gives reduced distance each time
+
+can we do use this undirected graphs - ?? 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Edge{
+	public:
+		int src;
+		int dst;
+		int w;
+};
+class Graph{
+	int V,E;
+	public:
+	Edge *edges;
+	Graph(int V,int E)
+	{
+		this->V=V;
+		this->E=E;
+		edges=new Edge[E];
+	}
+	void bellman(int s);
+};
+void Graph::bellman(int s)
+{
+vector<int> d(V,INT_MAX);   vector<int> parent(V,-1);
+d[s]=0;
+for(int i=1;i<V;i++)
+{
+	for(int e=0;e<E;e++)
+	{
+		if(d[edges[e].src]+edges[e].w<d[edges[e].dst])
+		{
+			d[edges[e].dst]=d[edges[e].src]+edges[e].w;
+			parent[edges[e].dst]=edges[e].src;
+		}
+	}
+
+}
+	for(int i=0;i<V;i++)
+	cout<<"distance of "<<i<<" is "<<d[i]<<endl;
+}
+int main()
+{
+	Graph g(5,8);
+	g.edges[0].src=0;
+	g.edges[0].dst=1;
+	g.edges[0].w=-1;
+	
+	g.edges[1].src = 0;
+    g.edges[1].dst = 2;
+    g.edges[1].w = 4;
+ 
+
+    g.edges[2].src = 1;
+    g.edges[2].dst = 2;
+    g.edges[2].w = 3;
+ 
+    g.edges[3].src = 1;
+    g.edges[3].dst = 3;
+    g.edges[3].w = 2;
+ 
+
+    g.edges[4].src = 1;
+    g.edges[4].dst = 4;
+    g.edges[4].w = 2;
+ 
+
+    g.edges[5].src = 3;
+    g.edges[5].dst = 2;
+    g.edges[5].w = 5;
+ 
+  
+    g.edges[6].src = 3;
+    g.edges[6].dst = 1;
+    g.edges[6].w = 1;
+
+    g.edges[7].src = 4;
+    g.edges[7].dst = 3;
+    g.edges[7].w = -3;
+    
+    g.bellman(0);
+}

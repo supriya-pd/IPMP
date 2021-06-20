@@ -1,0 +1,87 @@
+0-1 knapsack problem - gfg  TC is O(N*W)
+
+idea to fill states is  this - first fill base ones that is first col bec w is 0 and first row bec n is 0 - then there
+will be two cases either item is included or not included - if not included bec it's weight is greater than current capacity and if included then u have to consider max of
+(val when this item was not included and capacity was same that is go one row above , include this item so it's value + value of knapsack of capacity = current capacity - weight of this obj)
+ 
+
+tabulation -
+
+class Solution
+{
+    public:
+    int util(int **dp,int W,int*wt,int *val,int n){
+        if(n==0 || W==0)
+        return 0;
+        if(wt[n-1]>W)
+        {
+            dp[n][W] = util(dp,W,wt,val,n-1);
+        }else
+        {
+            
+        }
+    }
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+       int **dp=new int*[n+1];
+       for(int i=0;i<=n;i++)
+       {
+           dp[i]=new int[W+1];
+       }
+       for(int i=0;i<=n;i++)
+       {
+           for(int j=0;j<=W;j++)
+           {
+               if(i==0|| j==0)
+               dp[i][j]=0;        // same as initializing first col and row as 0 bec n=0 or W=0
+               else if(wt[i-1]<=j)  // for array i-1 indexing
+               {
+                   // including it
+                   dp[i][j]=max(dp[i-1][j],val[i-1]+dp[i-1][j-wt[i-1]]);
+               }else
+               dp[i][j]=dp[i-1][j];
+           }
+       }
+       return dp[n][W];
+    }
+};
+
+memoization -
+
+
+class Solution
+{
+    public:
+    int util(int **dp,int W,int*wt,int *val,int i){
+        if(i<0)
+        return 0;  // this is going to fill the base cases of my table, so u didn;t have to do it seperately
+        // just check if u have solution stored or not 
+        if(dp[i][W]==-1)
+        {
+           if(wt[i]<=W)  //include
+           {
+               dp[i][W]=max(util(dp,W,wt,val,i-1),val[i]+util(dp,W-wt[i],wt,val,i-1));
+           }else
+           {
+               dp[i][W]=util(dp,W,wt,val,i-1);
+           }
+        }
+        return dp[i][W];
+    }
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+       int **dp=new int*[n];  // only n this time
+       for(int i=0;i<n;i++)
+       {
+           dp[i]=new int[W+1];
+       }
+       // fill table with -1 
+        for (int i = 0; i <n ; i++)
+        for (int j = 0; j <=W; j++)
+            dp[i][j] = -1;
+       return util(dp,W,wt,val,n-1); // passing n-1 bec that is index for nth element
+    }
+};
+
+
+

@@ -1,0 +1,71 @@
+implement two stacks in one array
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class TwoStacks{
+	int size;
+	int *arr;
+	int top1;
+	int top2;
+	public:
+		TwoStacks(int size)
+		{
+			this->size=size;
+			arr=new int[size];
+			top1=-1;
+			top2=size;
+		}
+		void push1(int x);
+		void push2(int x);
+		int pop1();
+		int pop2();
+
+};
+void TwoStacks::push1(int x){
+	if(top2-top1==1)
+	{
+		cout<<"Stack Overflow";
+		exit(1);
+	}
+	top1++;
+	arr[top1]=x;
+}
+void TwoStacks::push2(int x){
+	if(top2-top1==1)
+	{
+		cout<<"Stack Overflow";
+		exit(1);
+	}
+	top2--;
+	arr[top2]=x;
+}
+int TwoStacks::pop1(){
+	if(top1==-1)
+	{
+		cout<<"Stack Underflow";
+		exit(1);
+	}
+	int x=arr[top1];
+	top1--;
+	return x;
+}
+int TwoStacks::pop2(){
+	if(top2==size)
+	{
+		cout<<"Stack Underflow";
+		exit(1);
+	}
+	int x=arr[top2];
+	top2++;
+	return x;
+}
+
+int main()
+{
+	TwoStacks s(10);
+	s.push1(1);
+	s.push2(9);
+	s.push1(2);
+	cout<<s.pop1();
+}

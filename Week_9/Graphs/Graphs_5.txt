@@ -1,0 +1,62 @@
+find if there is a path from s to d
+
+shortest path - we use bfs, hence here we prefer bfs instead of dfs
+printing paths - dfs
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Graph{
+	int V;
+	list<int> *adj;
+	public:
+		Graph(int V)
+		{
+			this->V=V;
+			adj=new list<int>[V];
+		}
+		void addEdge(int u,int v)
+		{
+			adj[u].push_back(v);
+		}
+		bool isPath(int s,int d);
+};
+bool Graph::isPath(int s,int d)
+{
+	if(s==d)
+	return true;
+	bool *visited=new bool[V];
+	for(int i=0;i<V;i++)
+	visited[i]=false;
+	
+	queue<int> q;
+	q.push(s);
+	visited[s]=true;
+	
+	while(!q.empty())
+	{
+		int v = q.front(); q.pop();
+		for(auto x : adj[v])         
+		{
+			if(x==d)
+			return true;
+			if(!visited[x])
+			{
+				visited[x]=true;
+				q.push(x);
+			}
+		}
+	}
+	return false;
+}
+int main()
+{
+	Graph g(4);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(2, 3);
+    g.addEdge(3, 3);
+    cout<<g.isPath(0,3);
+}
